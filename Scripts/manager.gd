@@ -23,7 +23,6 @@ var kills: int = 0
 var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
 
-
 enum BUG_TYPE {
 	ANT,
 	BOMBER

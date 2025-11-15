@@ -10,12 +10,16 @@ var range: float = 250.0
 var current_target: Node2D = null
 var attack_cooldown: float
 var attack_timer = 0.0
+var attack_audio_stream: AudioStreamPlayer2D
+
+func _ready() -> void:
+	self.attack_audio_stream = get_node('AudioStream')
 
 func initialize():
 	print("im a plant!")
 
 func attack():
-	print("i am attacking bug with id of: " + self.current_target.get_id())
+	self.attack_audio_stream.play()
 
 func take_damage(damage: float):
 	if (self.total_hp > 0):
