@@ -1,9 +1,17 @@
 extends Node2D
 
+class_name Manager
+
 const ant_scene: PackedScene = preload("res://Scenes/ant.tscn")
 const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
 
+@export var col_height: float = 112
+@export var row_width: float = 112
+@export var num_cols: int = 20
+@export var num_rows: int = 20
+
+var game_grid: Array[Array] = []
 var active_bugs = []
 var active_plants = {}
 var num_current_bugs = 0
@@ -12,10 +20,47 @@ var current_round: int = 1
 var wave_amount: int = 20
 var rng = RandomNumberGenerator.new()
 
+
 enum BUG_TYPE {
 	ANT,
 	BOMBER
 }
+
+enum PLANT_TYPE {
+	TOMATO
+}
+
+# helper to get the nearest grid col & row based off a set of world coordinates 
+func get_grid_from_world_vec(world: Vector2) -> Vector2:
+	# todo - check if completely out of bounds
+	var col = roundi(world.x/self.col_height)
+	var row = roundi(world.y/self.row_width)
+	return Vector2(col, row)
+	
+# helper for determining if an object can be placed in the grid or not,
+# returns empty array if cannot be placed
+func can_place_in_grid(coords: Vector2, dimensions: Vector2) -> Array:
+	var desired_indices = []
+	
+	var allowed: bool = true
+	for i in range(dimensions.x):
+		for j in range(dimensions.y):
+			if (self.game_grid[coords.x + i][coords.y + j] == null):
+				desired_indices.push_back(Vector2(coords.x+i, coords.y+j))
+			else:
+				allowed = false
+				break
+	if (!allowed):
+		return []
+	return desired_indices
+	
+func place_in_grid(id: String, coords: Vector2, dimensions: Vector2) -> bool:
+	var desired_coords = self.can_place_in_grid(coords, dimensions)
+	if (len(desired_coords) > 0):
+		for coord in desired_coords:
+			self.game_grid[coord.x][coord.y] = id
+		return true
+	return false
 
 func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 	# now pick one of the 4 random quadrants around the center of the player's base (for now just the origin)
@@ -49,19 +94,33 @@ func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 func desired_enemies() -> int:
 	return current_round * wave_amount
 
-func add_plant(plant: PackedScene, position: Vector2):
-	var base_plant = tomato_plant_scene.instantiate()
-	base_plant.position = position
-	var num_plants = str(num_current_plants)
-	self.active_plants[str(num_plants)] = base_plant
-	var plant_script: Plant = base_plant
-	plant_script.initialize()
-	add_child(base_plant)
-	num_current_plants += 1
+func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
+	var plant_node: Node2D
+	var plant_script: Plant
+	var plant_id = str(num_current_plants)
+	
+	if (plant_type == PLANT_TYPE.TOMATO):
+		plant_node = tomato_plant_scene.instantiate()
+		plant_script = plant_node
+	
+	# is there anything in our grid at these coords?
+	if (place_in_grid(plant_id, Vector2(col, row), plant_script.get_dimensions())):
+		# get the position derived from the col & row
+		plant_node.position = Vector2(col * self.col_height, row * self.row_width)
+		self.active_plants[plant_id] = plant_node
+		plant_script.initialize()
+		add_child(plant_node)
+		num_current_plants += 1
 
 func _ready():
-	add_plant(tomato_plant_scene, Vector2(0, 0))
-	add_plant(tomato_plant_scene, Vector2(150, 0))
+	# generate our game grid structure
+	for i in range(self.num_cols):
+		var column = []
+		for j in range(self.num_rows):
+			column.push_back(null)
+		self.game_grid.push_back(column)
+	
+	add_plant(PLANT_TYPE.TOMATO, 4, 4)
 
 func _process(delta: float) -> void:
 	if active_bugs.size() < desired_enemies():

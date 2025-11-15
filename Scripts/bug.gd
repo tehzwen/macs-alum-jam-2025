@@ -17,7 +17,7 @@ func initialize(id: String) -> void:
 	self.id = id
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
-	print("me a bug with id of %s" % id)
+	#print("me a bug with id of %s" % id)
 
 func get_id():
 	return self.id
@@ -30,9 +30,11 @@ func set_target(target: Node2D):
 func take_damage(damage: float):
 	if (self.total_hp > 0):
 		self.total_hp -= damage
-	print("I have %d hp left" % self.total_hp)
+	#print("I have %d hp left" % self.total_hp)
 	var health_percentage = self.total_hp / self.max_hp
-	sprite.set_instance_shader_parameter("health_percentage", health_percentage)
+	
+	if (sprite != null):
+		sprite.set_instance_shader_parameter("health_percentage", health_percentage)
 
 func get_target() -> Node2D:
 	return self.target
