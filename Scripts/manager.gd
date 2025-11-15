@@ -6,11 +6,12 @@ const ant_scene: PackedScene = preload("res://Scenes/ant.tscn")
 const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
 const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
+const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
 
 @export var col_height: float = 112
 @export var row_width: float = 112
-@export var num_cols: int = 20
-@export var num_rows: int = 20
+@export var num_cols: int = 10
+@export var num_rows: int = 10
 
 var game_grid: Array[Array] = []
 var active_bugs = []
@@ -140,6 +141,37 @@ func _ready():
 		var column = []
 		for j in range(self.num_rows):
 			column.push_back(null)
+			# spawn in the tile, todo - handle cases on edges where we want to spawn the edge pieces
+			var tile_node = plantable_tile_scene.instantiate()
+			tile_node.position = Vector2(self.col_height * i, self.row_width * j)
+			var tile_node_script: PlantableTile = tile_node
+			add_child(tile_node)
+			
+			# top left
+			if (i == 0 and j == 0):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.TOP_LEFT)
+			# bottom left
+			elif (i == 0 and j == self.num_rows - 1):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.BOTTOM_LEFT)
+			# top right
+			elif (i == self.num_cols - 1 and j == 0):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.TOP_RIGHT)
+			# bottom right
+			elif (i == self.num_cols - 1 and j == self.num_rows - 1):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.BOTTOM_RIGHT)
+			# left row
+			elif (i == 0):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.MIDDLE_LEFT)
+			# top row
+			elif (j == 0):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.TOP_MIDDLE)
+			# right row
+			elif (i == self.num_cols - 1):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.MIDDLE_RIGHT)
+			# bottom row
+			elif (j == self.num_rows - 1):
+				tile_node_script.set_tile_spot(PlantableTile.TILE_SPOT.BOTTOM_MIDDLE)
+				
 		self.game_grid.push_back(column)
 	
 	add_plant(PLANT_TYPE.TOMATO, 4, 4)
