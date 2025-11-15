@@ -5,7 +5,7 @@ class_name Plant
 var total_hp: int = 100
 var range: float = 250.0
 var current_target: Node2D = null
-var attack_cooldown = 1.0
+var attack_cooldown: float
 var attack_timer = 0.0
 
 func initialize():
@@ -25,7 +25,7 @@ func set_target(target: Node2D):
 
 func die():
 	queue_free()
-	
+
 func _process(delta: float) -> void:
 	if (self.current_target != null):
 		self.attack_timer -= delta
