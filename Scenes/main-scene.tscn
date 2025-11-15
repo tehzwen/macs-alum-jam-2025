@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckojlgjelib5x"]
+
+[ext_resource type="Script" uid="uid://dk5on1k7ul5al" path="res://Scripts/game_camera.gd" id="1_374bx"]
+[ext_resource type="Script" uid="uid://c2nt86875xx6l" path="res://Scripts/manager.gd" id="3_ljg3k"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_374bx")
+ZOOM_FACTOR = 0.05
+
+[node name="Spawner" type="Node2D" parent="."]
+script = ExtResource("3_ljg3k")
