@@ -1,6 +1,7 @@
 extends Node2D
 
 const ant_scene: PackedScene = preload("res://Scenes/ant.tscn")
+const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
 
 var active_bugs = []
@@ -11,25 +12,39 @@ var current_round: int = 1
 var wave_amount: int = 20
 var rng = RandomNumberGenerator.new()
 
-func new_ant(id: String) -> Node2D:
-	var inst = ant_scene.instantiate()
+enum BUG_TYPE {
+	ANT,
+	BOMBER
+}
+
+func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 	# now pick one of the 4 random quadrants around the center of the player's base (for now just the origin)
 	# todo - get number of plants which helps us determine what is "safely away" from the base
 	var safe_base = 200.0
 	var quadrant = rng.randi_range(0, 3)
+	var destination: Vector2
 	match quadrant:
 		0:
-			inst.position = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(safe_base, safe_base * 2))
+			destination = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(safe_base, safe_base * 2))
 		1:
-			inst.position = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(safe_base, safe_base * 2))
+			destination = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(safe_base, safe_base * 2))
 		2:
-			inst.position = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(-safe_base, -(safe_base * 2)))
+			destination = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(-safe_base, -(safe_base * 2)))
 		3: 
-			inst.position = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(-safe_base, -(safe_base * 2)))
-			
-	var ant_node: Ant = inst
-	ant_node.initialize(id)
-	return ant_node
+			destination = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(-safe_base, -(safe_base * 2)))
+	
+	if (type == BUG_TYPE.BOMBER):
+		var inst = bomber_scene.instantiate()
+		inst.position = destination
+		var bomber_node: BomberBug = inst
+		bomber_node.initialize(id)
+		return bomber_node
+	else:
+		var inst = ant_scene.instantiate()
+		inst.position = destination
+		var ant_node: Ant = inst
+		ant_node.initialize(id)
+		return ant_node
 
 func desired_enemies() -> int:
 	return current_round * wave_amount
@@ -39,6 +54,8 @@ func add_plant(plant: PackedScene, position: Vector2):
 	base_plant.position = position
 	var num_plants = str(num_current_plants)
 	self.active_plants[str(num_plants)] = base_plant
+	var plant_script: Plant = base_plant
+	plant_script.initialize()
 	add_child(base_plant)
 	num_current_plants += 1
 
@@ -49,7 +66,12 @@ func _ready():
 func _process(delta: float) -> void:
 	if active_bugs.size() < desired_enemies():
 		var bug_id = str(self.num_current_bugs)
-		var ant = new_ant(bug_id)
+		var rand_bug = randi_range(-1, 1)
+		var type = BUG_TYPE.BOMBER
+		if (rand_bug == -1):
+			type = BUG_TYPE.ANT
+		
+		var ant = new_bug(bug_id, type)
 		add_child(ant)
 		active_bugs.push_back(ant)
 		self.num_current_bugs += 1

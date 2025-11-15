@@ -3,7 +3,8 @@ extends Plant
 const tomato_projectile_scene: PackedScene = preload("res://Scenes/tomato.tscn")
 
 func initialize():
-	self.initialize()
+	super.initialize()
+	self.attack_cooldown = 0.5
 	print("im a tomato plant!")
 
 func attack():
