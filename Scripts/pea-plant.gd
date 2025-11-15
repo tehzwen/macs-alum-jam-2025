@@ -11,6 +11,7 @@ func initialize():
 	print("im a pea plant!")
 
 func attack():
+	super.attack()
 	if (self.current_target == null):
 		return
 	# spawn in a tomato and send it toward the bug

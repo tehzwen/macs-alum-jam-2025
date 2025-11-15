@@ -1,16 +1,25 @@
 extends Camera2D
 
+const PLANT_PLACE_SFX = preload("res://Sound/SFX/Gameplay/plant-add-remove.wav")
+
 @export var ZOOM_FACTOR: float = 0.1
 @export var MAX_ZOOM: float = 3.0
+
+var ui_audio: AudioStreamPlayer
+var manager: Manager
+
+func _ready() -> void:
+	manager = self.get_node("../Spawner")
+	ui_audio = self.get_node("../UISound")
 
 func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):
 		if (event.button_index == MOUSE_BUTTON_LEFT):
 			# get the parent, then call our manager script func to place a plant
-			var manager: Manager = self.get_node("../Spawner")
 			var grid_coords = manager.get_grid_from_world_vec(get_global_mouse_position())
-			print("Mouse coords, grid coords", get_global_mouse_position(), grid_coords)
 			manager.add_plant(manager.PLANT_TYPE.TOMATO, grid_coords.x, grid_coords.y)
+			ui_audio.stream = PLANT_PLACE_SFX
+			ui_audio.play()
 		#elif (event.button_index == MOUSE_BUTTON_RIGHT):
 			#print("right click")
 		elif (event.button_index == MOUSE_BUTTON_WHEEL_DOWN):

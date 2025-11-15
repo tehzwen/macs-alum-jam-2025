@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bor67blktj4m5"]
+[gd_scene load_steps=5 format=3 uid="uid://bor67blktj4m5"]
 
 [ext_resource type="Script" uid="uid://8qs2bsjwojx8" path="res://Scripts/tomato-plant.gd" id="1_7gy0g"]
 [ext_resource type="Texture2D" uid="uid://7a1708k775w" path="res://Resources/tomato-plant.jpg" id="1_xewkx"]
+[ext_resource type="AudioStream" uid="uid://c61escs0p8lch" path="res://Sound/SFX/Gameplay/heavy_sound.wav" id="3_as3ei"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xewkx"]
 size = Vector2(112, 112)
@@ -19,3 +20,6 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_xewkx")
+
+[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_as3ei")

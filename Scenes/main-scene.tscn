@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckojlgjelib5x"]
+[gd_scene load_steps=5 format=3 uid="uid://ckojlgjelib5x"]
 
 [ext_resource type="Script" uid="uid://dk5on1k7ul5al" path="res://Scripts/game_camera.gd" id="1_374bx"]
 [ext_resource type="PackedScene" uid="uid://bpamdhgkpv4fp" path="res://Scenes/debug-ui.tscn" id="3_374bx"]
 [ext_resource type="Script" uid="uid://c2nt86875xx6l" path="res://Scripts/manager.gd" id="3_ljg3k"]
+[ext_resource type="AudioStream" uid="uid://cgxa1p0r8timg" path="res://Sound/Music/regular_wave.mp3" id="4_jxk2s"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -14,3 +15,9 @@ ZOOM_FACTOR = 0.05
 script = ExtResource("3_ljg3k")
 
 [node name="DebugUi" parent="." instance=ExtResource("3_374bx")]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jxk2s")
+autoplay = true
+
+[node name="UISound" type="AudioStreamPlayer" parent="."]
