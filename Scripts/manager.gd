@@ -5,6 +5,7 @@ class_name Manager
 const ant_scene: PackedScene = preload("res://Scenes/ant.tscn")
 const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
+const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
 
 @export var col_height: float = 112
 @export var row_width: float = 112
@@ -27,7 +28,8 @@ enum BUG_TYPE {
 }
 
 enum PLANT_TYPE {
-	TOMATO
+	TOMATO,
+	PEA
 }
 
 # helper to get the nearest grid col & row based off a set of world coordinates 
@@ -101,8 +103,10 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 	
 	if (plant_type == PLANT_TYPE.TOMATO):
 		plant_node = tomato_plant_scene.instantiate()
-		plant_script = plant_node
-	
+	elif (plant_type == PLANT_TYPE.PEA):
+		plant_node = pea_plant_scene.instantiate()
+		
+	plant_script = plant_node
 	# is there anything in our grid at these coords?
 	if (place_in_grid(plant_id, Vector2(col, row), plant_script.get_dimensions())):
 		# get the position derived from the col & row
@@ -121,6 +125,7 @@ func _ready():
 		self.game_grid.push_back(column)
 	
 	add_plant(PLANT_TYPE.TOMATO, 4, 4)
+	add_plant(PLANT_TYPE.PEA, 5, 5)
 
 func _process(delta: float) -> void:
 	if active_bugs.size() < desired_enemies():
@@ -161,6 +166,7 @@ func _process(delta: float) -> void:
 			# check if the plant is still alive
 			if (plant_script.total_hp <= 0):
 				self.active_plants.erase(plant_id)
+				# todo: clean up the grid coords for this plant
 				plant_script.die()
 				num_current_plants -= 1
 				continue
