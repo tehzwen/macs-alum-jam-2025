@@ -66,7 +66,12 @@ func _ready():
 func _process(delta: float) -> void:
 	if active_bugs.size() < desired_enemies():
 		var bug_id = str(self.num_current_bugs)
-		var ant = new_bug(bug_id, BUG_TYPE.BOMBER)
+		var rand_bug = randi_range(-1, 1)
+		var type = BUG_TYPE.BOMBER
+		if (rand_bug == -1):
+			type = BUG_TYPE.ANT
+		
+		var ant = new_bug(bug_id, type)
 		add_child(ant)
 		active_bugs.push_back(ant)
 		self.num_current_bugs += 1
