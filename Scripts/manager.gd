@@ -19,7 +19,9 @@ var num_current_bugs = 0
 var num_current_plants = 0
 var current_round: int = 1
 var wave_amount: int = 20
+var kills: int = 0
 var rng = RandomNumberGenerator.new()
+var wave_manager = WaveManager.new()
 
 
 enum BUG_TYPE {
@@ -31,6 +33,21 @@ enum PLANT_TYPE {
 	TOMATO,
 	PEA
 }
+
+func get_kills() -> int:
+	return self.kills
+	
+func get_num_plants() -> int:
+	return self.active_plants.size()
+	
+func get_num_bugs() -> int:
+	return len(self.active_bugs)
+
+func get_round() -> int:
+	return self.wave_manager.current_wave_num
+
+func get_remaining() -> int:
+	return self.wave_manager.get_remaining() + self.wave_manager.get_active_enemy_count()
 
 # helper to get the nearest grid col & row based off a set of world coordinates 
 func get_grid_from_world_vec(world: Vector2) -> Vector2:
@@ -117,6 +134,8 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		num_current_plants += 1
 
 func _ready():
+	self.wave_manager.initialize()
+	
 	# generate our game grid structure
 	for i in range(self.num_cols):
 		var column = []
@@ -128,7 +147,7 @@ func _ready():
 	add_plant(PLANT_TYPE.PEA, 5, 5)
 
 func _process(delta: float) -> void:
-	if active_bugs.size() < desired_enemies():
+	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
 		var type = BUG_TYPE.BOMBER
@@ -139,7 +158,13 @@ func _process(delta: float) -> void:
 		add_child(ant)
 		active_bugs.push_back(ant)
 		self.num_current_bugs += 1
-		# handle bug targetting
+	elif active_bugs.size() == 0 and self.wave_manager.get_remaining() < 0 and not self.wave_manager.waiting:
+		# todo - run a timer here then spawn the next wave
+		self.wave_manager.waiting = true
+		await get_tree().create_timer(3.0).timeout
+		self.wave_manager.next_wave()
+	
+	# handle bug targetting
 	for i in range(len(self.active_bugs)):
 		# hack for when range is called and dead bug is tried
 		if (i >= len(self.active_bugs)):
@@ -152,6 +177,8 @@ func _process(delta: float) -> void:
 			#self.active_bugs.erase(id)
 			self.active_bugs.remove_at(i)
 			bug_script.die()
+			self.kills += 1
+			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
 			continue
 		
