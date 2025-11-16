@@ -1,6 +1,31 @@
-[gd_resource type="SpriteFrames" load_steps=4 format=3 uid="uid://kutq4ho2opnr"]
+[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://kutq4ho2opnr"]
 
+[ext_resource type="Texture2D" uid="uid://clsgkx4fqvms3" path="res://Resources/Ant_Spitin_Hate.png" id="1_0hdk3"]
 [ext_resource type="Texture2D" uid="uid://4ux13a4arp0x" path="res://Resources/AntInfectedV2.png" id="1_bra34"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58qmt"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyhn2"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12ign"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7qvkm"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s34k2"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qw87d"]
+atlas = ExtResource("1_0hdk3")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hmi27"]
 atlas = ExtResource("1_bra34")
@@ -12,6 +37,29 @@ region = Rect2(0, 0, 32, 32)
 
 [resource]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58qmt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyhn2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12ign")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7qvkm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s34k2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qw87d")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hmi27")

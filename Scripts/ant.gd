@@ -2,6 +2,9 @@ extends Bug
 
 class_name Ant
 
+var attack_started: bool = false
+
+
 func initialize(id: String) -> void:
 	super.initialize(id)
 	self.damage = 0.1
@@ -22,6 +25,12 @@ func attack():
 	if (self.reached_target != null):
 		var plant_script: Plant = self.reached_target
 		plant_script.take_damage(self.damage)
+		
+		if (not self.attack_started):
+			$Sprite.play("attack")
+			self.attack_started = true
+	else:
+		self.attack_started = false
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if (self.reached_target == null):

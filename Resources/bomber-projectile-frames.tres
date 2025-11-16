@@ -1,0 +1,32 @@
+[gd_resource type="SpriteFrames" load_steps=5 format=3 uid="uid://4xe8rpwrbv6w"]
+
+[ext_resource type="Texture2D" uid="uid://8ficvh42eqjf" path="res://Resources/RangedBugProjectile.png" id="1_6ghc1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svxa5"]
+atlas = ExtResource("1_6ghc1")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgel3"]
+atlas = ExtResource("1_6ghc1")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kigkx"]
+atlas = ExtResource("1_6ghc1")
+region = Rect2(64, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svxa5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgel3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kigkx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

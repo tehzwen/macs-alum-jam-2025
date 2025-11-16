@@ -6,6 +6,8 @@ const bomber_bug_projectile_scene: PackedScene = preload("res://Scenes/bomber-pr
 @export var range: float = 200
 
 var projectile_node: Node2D
+var projectile_sprite: Sprite2D
+var attack_started: bool = false
 
 func attack():
 	super.attack()
@@ -14,13 +16,10 @@ func attack():
 	
 	var direction = (self.reached_target.position - self.position).normalized()
 	projectile_node = inst
-	projectile_node.look_at(direction)
-	projectile_node.translate(direction * range/2)
-	sprite = projectile_node.get_node("Sprite")
-	sprite.set_instance_shader_parameter("attack_timer", self.attack_timer)
-	
-	var plant_script: Plant = self.reached_target
-	plant_script.take_damage(self.damage)
+	projectile_node.look_at(self.reached_target.position)
+	projectile_node.position = $ShooterMarker.position
+	var projectile_script: BomberProjectile = projectile_node
+	projectile_script.direction = direction
 	
 	
 func initialize(id: String) -> void:
@@ -31,6 +30,7 @@ func initialize(id: String) -> void:
 func move_to_target():
 	super.move_to_target()
 	if (self.reached_target == null):
+		self.attack_started = false
 		if (self.projectile_node != null):
 			self.projectile_node.queue_free()
 			self.projectile_node = null
@@ -39,4 +39,9 @@ func move_to_target():
 		
 		if (self.range >= self.position.distance_to(self.target.position)):
 			self.reached_target = self.target
+	else:
+		if (not self.attack_started):
+			$Sprite.play("attack")
+			self.attack_started = true
+		
 	
