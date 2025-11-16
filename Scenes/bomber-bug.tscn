@@ -1,26 +1,31 @@
 [gd_scene load_steps=6 format=3 uid="uid://gy1cf5y528dh"]
 
 [ext_resource type="Script" uid="uid://b7uoq44mmtn5a" path="res://Scripts/bomber-bug.gd" id="1_08ufo"]
-[ext_resource type="Texture2D" uid="uid://dmvfn1wxor7ry" path="res://Resources/ladybug.jpg" id="1_umu61"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_2hsh2"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yy1xb"]
-shader = ExtResource("2_2hsh2")
-shader_parameter/base_color = Vector3(0.5, 0, 0)
+[ext_resource type="SpriteFrames" uid="uid://ljtpco7jx0k3" path="res://Resources/bomber-bug-frames.tres" id="4_yy1xb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_08ufo"]
 size = Vector2(96, 90)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2hsh2"]
+shader = ExtResource("2_2hsh2")
+shader_parameter/base_color = Vector3(1, 0, 0)
+
 [node name="BomberBug" type="Node2D"]
 script = ExtResource("1_08ufo")
-
-[node name="Sprite" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_yy1xb")
-instance_shader_parameters/health_percentage = 1.0
-scale = Vector2(0.15604575, 0.14787582)
-texture = ExtResource("1_umu61")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_08ufo")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_2hsh2")
+instance_shader_parameters/health_percentage = 1.0
+position = Vector2(0.5, 0.5)
+scale = Vector2(2.96875, 2.78125)
+sprite_frames = ExtResource("4_yy1xb")
+animation = &"attack"
+
+[node name="ShooterMarker" type="Marker2D" parent="."]
+position = Vector2(5, -29)

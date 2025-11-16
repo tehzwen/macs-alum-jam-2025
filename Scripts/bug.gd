@@ -53,7 +53,7 @@ func die():
 
 func _process(delta: float) -> void:
 	if (self.reached_target != null):
-		self.sprite.stop()
+		#self.sprite.stop()
 		self.attack_timer -= delta
 		if (self.attack_timer <= 0.0):
 			self.attack_timer = self.attack_cooldown

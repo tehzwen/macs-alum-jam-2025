@@ -1,18 +1,27 @@
 [gd_scene load_steps=4 format=3 uid="uid://cymchg65bjlg6"]
 
-[ext_resource type="Shader" uid="uid://djiqgqeg4j7xp" path="res://Shaders/bomber-projectile.gdshader" id="1_bdn40"]
+[ext_resource type="SpriteFrames" uid="uid://4xe8rpwrbv6w" path="res://Resources/bomber-projectile-frames.tres" id="1_bdn40"]
+[ext_resource type="Script" uid="uid://csacfkvav60kw" path="res://Scripts/bomber_projectile.gd" id="1_hbhpg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_epk7d"]
-shader = ExtResource("1_bdn40")
-shader_parameter/base_colour = Vector3(0.2, 0, 0.5)
-
-[sub_resource type="CanvasTexture" id="CanvasTexture_bdn40"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_hbhpg"]
+radius = 27.018513
 
 [node name="BomberProjectile" type="Node2D"]
+script = ExtResource("1_hbhpg")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_epk7d")
-instance_shader_parameters/attack_timer = 0.0
-position = Vector2(0, -0.06250006)
-scale = Vector2(150, 13.875)
-texture = SubResource("CanvasTexture_bdn40")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-9.536743e-07, -3.999998)
+scale = Vector2(2, 1.7500001)
+sprite_frames = ExtResource("1_bdn40")
+frame = 2
+frame_progress = 0.32156157
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-8, -4)
+shape = SubResource("CircleShape2D_hbhpg")
+
+[connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]

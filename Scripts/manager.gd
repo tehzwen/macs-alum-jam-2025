@@ -206,8 +206,7 @@ func _process(delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
-		# hardcode until I have animated sprite since it crashes if theyre both not consistent
-		var type = BUG_TYPE.ANT
+		var type = BUG_TYPE.BOMBER
 		#if (rand_bug == -1):
 			#type = BUG_TYPE.ANT
 		
