@@ -7,6 +7,7 @@ const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
 const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
 const fly_trap_plant_scene: PackedScene = preload("res://Scenes/fly-trap-plant.tscn")
+const vine_plant_scene: PackedScene = preload("res://Scenes/vine-plant.tscn")
 const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
 
 @export var col_height: float = 112
@@ -34,7 +35,8 @@ enum BUG_TYPE {
 enum PLANT_TYPE {
 	TOMATO,
 	PEA,
-	FLY_TRAP
+	FLY_TRAP,
+	VINE
 }
 
 func get_selected_type() -> PLANT_TYPE:
@@ -141,6 +143,8 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		plant_node = pea_plant_scene.instantiate()
 	elif (plant_type == PLANT_TYPE.FLY_TRAP):
 		plant_node = fly_trap_plant_scene.instantiate()
+	elif (plant_type == PLANT_TYPE.VINE):
+		plant_node = vine_plant_scene.instantiate()
 		
 	plant_script = plant_node
 	# is there anything in our grid at these coords?
@@ -196,7 +200,7 @@ func _ready():
 	
 	#add_plant(PLANT_TYPE.TOMATO, 4, 4)
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
-	add_plant(PLANT_TYPE.FLY_TRAP, 6,6)
+	add_plant(PLANT_TYPE.VINE, 4,4)
 
 func _process(delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:

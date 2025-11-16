@@ -6,7 +6,8 @@ const pea_projectile_scene: PackedScene = preload("res://Scenes/pea.tscn")
 
 func initialize():
 	super.initialize()
-	self.attack_cooldown = 0.5
+	self.attack_cooldown = 0.25
+	self.attack_duration = 0.1
 	self.range = 500
 	print("im a pea plant!")
 	$AnimatedSprite2D.play("default")

@@ -5,7 +5,7 @@ class_name Ant
 func initialize(id: String) -> void:
 	super.initialize(id)
 	self.damage = 0.1
-	self.move_speed = 2.5
+	self.move_speed = 1
 	
 func get_id():
 	return self.id + ", but im an ant"

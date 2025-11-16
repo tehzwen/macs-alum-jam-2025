@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b1vy04o4dirsa" path="res://Scripts/ant.gd" id="1_4ydk5"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_wtaqj"]
-[ext_resource type="SpriteFrames" uid="uid://kutq4ho2opnr" path="res://Resources/ant_sprite_frames.tres" id="4_wtaqj"]
+[ext_resource type="SpriteFrames" uid="uid://kutq4ho2opnr" path="res://Resources/ant-sprite-frames.tres" id="4_wtaqj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtaqj"]
 size = Vector2(54, 64)

@@ -113,3 +113,12 @@ instance_shader_parameters/isSelected = false
 position = Vector2(160, 32)
 texture = ExtResource("4_lglsl")
 hframes = 4
+
+[node name="Vine" type="Sprite2D" parent="CanvasLayer/Panel"]
+material = SubResource("ShaderMaterial_lglsl")
+position = Vector2(223.99998, 32)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("2_y3irw")
+hframes = 4
+vframes = 4
+frame = 11
