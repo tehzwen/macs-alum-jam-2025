@@ -13,8 +13,8 @@ const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.t
 var music_stream: AudioStreamPlayer
 var manager: Manager
 
-@export var col_height: float = 112
-@export var row_width: float = 112
+@export var col_height: float = 32
+@export var row_width: float = 32
 @export var num_cols: int = 10
 @export var num_rows: int = 10
 

@@ -4,14 +4,13 @@
 [ext_resource type="Script" uid="uid://csacfkvav60kw" path="res://Scripts/bomber_projectile.gd" id="1_hbhpg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hbhpg"]
-radius = 27.018513
+radius = 16.03122
 
 [node name="BomberProjectile" type="Node2D"]
 script = ExtResource("1_hbhpg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-9.536743e-07, -3.999998)
-scale = Vector2(2, 1.7500001)
 sprite_frames = ExtResource("1_bdn40")
 frame = 2
 frame_progress = 0.32156157
@@ -21,7 +20,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-8, -4)
+position = Vector2(-3, -4)
 shape = SubResource("CircleShape2D_hbhpg")
 
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]

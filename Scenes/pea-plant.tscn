@@ -5,7 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dew7nchqv271p" path="res://Resources/pea-plant-frames.tres" id="4_5c7k7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqfcn"]
-size = Vector2(43, 48)
+size = Vector2(32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6jun7"]
 radius = 208.0
@@ -17,7 +17,6 @@ script = ExtResource("1_mfy48")
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(2.5, 0)
 shape = SubResource("RectangleShape2D_fqfcn")
 
 [node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
@@ -25,7 +24,6 @@ stream = ExtResource("3_6jun7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(1.1920929e-07, 0)
-scale = Vector2(1.3749999, 1.3749999)
 sprite_frames = ExtResource("4_5c7k7")
 speed_scale = 0.2
 
