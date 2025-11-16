@@ -260,4 +260,4 @@ func _process(delta: float) -> void:
 	var wave_number = wave_manager.get_wave_number()
 	if wave_number > 1:
 		var pitch_scale = 1.0 + (float(wave_manager.get_wave_number())/100.0)
-		music_stream.pitch_scale = min(pitch_scale, 1.7)
+		music_stream.pitch_scale = min(pitch_scale, 1.7) # 1.7 is ridiculously fast, cap it there

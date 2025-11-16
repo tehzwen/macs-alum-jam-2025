@@ -2,6 +2,8 @@ extends Bug
 
 class_name Ant
 
+var attack_audio_stream: AudioStreamPlayer2D
+
 var attack_started: bool = false
 var walk_started: bool = false
 
@@ -9,6 +11,9 @@ func initialize(id: String) -> void:
 	super.initialize(id)
 	self.damage = 0.1
 	self.move_speed = 1
+	
+func _ready() -> void:
+	attack_audio_stream = get_node("AttackSound")
 	
 func get_id():
 	return self.id + ", but im an ant"
@@ -30,6 +35,7 @@ func attack():
 	if (self.reached_target != null):
 		var plant_script: Plant = self.reached_target
 		plant_script.take_damage(self.damage)
+		attack_audio_stream.play()
 		
 		if (not self.attack_started):
 			$Sprite.play("attack")
