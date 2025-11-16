@@ -15,6 +15,7 @@ func initialize():
 	self.total_hp = 500
 	self.grid_height = 2
 	self.grid_width = 2
+	self.attack_duration = 0.1
 	print("im a fly trap plant!")
 	$AnimatedSprite2D.play("default")
 

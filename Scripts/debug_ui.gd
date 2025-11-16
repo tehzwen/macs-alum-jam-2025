@@ -9,8 +9,8 @@ var killsLabel: RichTextLabel
 var tomato: Sprite2D
 var pea: Sprite2D
 var fly_trap: Sprite2D
+var vine: Sprite2D
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	manager = get_node('../Spawner')
 	numPlantsLabel = get_node('CanvasLayer/NumPlants')
@@ -21,13 +21,14 @@ func _ready() -> void:
 	tomato = get_node("CanvasLayer/Panel/Tomato")
 	pea = get_node("CanvasLayer/Panel/Pea")
 	fly_trap = get_node("CanvasLayer/Panel/FlyTrap")
+	vine = get_node("CanvasLayer/Panel/Vine")
 
 func reset_selected_uniforms():
 	tomato.set_instance_shader_parameter("isSelected", false)
 	pea.set_instance_shader_parameter("isSelected", false)
 	fly_trap.set_instance_shader_parameter("isSelected", false)
+	vine.set_instance_shader_parameter("isSelected", false)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	numPlantsLabel.text = "Num Plants: %d" % manager.get_num_plants()
 	numBugsLabel.text = "Num Bugs: %d" % manager.get_num_bugs()
@@ -46,4 +47,6 @@ func _process(delta: float) -> void:
 	elif(current_plant_type == Manager.PLANT_TYPE.FLY_TRAP):
 		self.reset_selected_uniforms()
 		fly_trap.set_instance_shader_parameter("isSelected", true)
-		
+	elif(current_plant_type == Manager.PLANT_TYPE.VINE):
+		self.reset_selected_uniforms()
+		vine.set_instance_shader_parameter("isSelected", true)

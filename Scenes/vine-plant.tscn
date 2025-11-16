@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://da6j3epbwr7ut"]
+
+[ext_resource type="Script" uid="uid://bvsyylhon7cmv" path="res://Scripts/vine_plant.gd" id="1_d1cb5"]
+[ext_resource type="AudioStream" uid="uid://c61escs0p8lch" path="res://Sound/SFX/Gameplay/heavy_sound.wav" id="1_r40fw"]
+[ext_resource type="SpriteFrames" uid="uid://cm3djmvqyjw23" path="res://Resources/vine-plant-frames.tres" id="2_7dup2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7dup2"]
+size = Vector2(112, 112)
+
+[node name="VinePlant" type="Node2D"]
+script = ExtResource("1_d1cb5")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_7dup2")
+
+[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("1_r40fw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(3.5, 3.5)
+sprite_frames = ExtResource("2_7dup2")
+frame = 1
+frame_progress = 0.25015208
+speed_scale = 0.32

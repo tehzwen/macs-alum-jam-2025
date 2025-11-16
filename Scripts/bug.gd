@@ -8,6 +8,7 @@ var total_hp: float = 50
 var damage: float = 0.5
 var target: Node2D
 var move_speed: float = 0.5
+var original_move_speed: float
 var attack_cooldown = 0.5
 var attack_timer = 0.0
 var reached_target: Node2D
@@ -16,6 +17,7 @@ var sprite: AnimatedSprite2D
 func initialize(id: String) -> void:
 	self.max_hp = self.total_hp
 	self.id = id
+	self.original_move_speed = self.move_speed
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
 	sprite.play("default")
