@@ -12,8 +12,8 @@ dest_files=["res://.godot/imported/regular_wave_loop.ogg-3abf70aa3e6fe723d4d0651
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
-bpm=0
+bpm=100.0
 beat_count=0
 bar_beats=4
