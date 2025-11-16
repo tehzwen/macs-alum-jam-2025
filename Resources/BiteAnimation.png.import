@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7a1708k775w"
-path="res://.godot/imported/tomato-plant.jpg-0180c884295623658500289a316db088.ctex"
+uid="uid://3hyswlpqnjoi"
+path="res://.godot/imported/BiteAnimation.png-9588c79abac024da12421627b826277f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/tomato-plant.jpg"
-dest_files=["res://.godot/imported/tomato-plant.jpg-0180c884295623658500289a316db088.ctex"]
+source_file="res://Resources/BiteAnimation.png"
+dest_files=["res://.godot/imported/BiteAnimation.png-9588c79abac024da12421627b826277f.ctex"]
 
 [params]
 

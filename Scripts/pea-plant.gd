@@ -9,6 +9,7 @@ func initialize():
 	self.attack_cooldown = 0.5
 	self.range = 500
 	print("im a pea plant!")
+	$AnimatedSprite2D.play("default")
 
 func attack():
 	super.attack()

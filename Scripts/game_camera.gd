@@ -13,11 +13,19 @@ func _ready() -> void:
 	ui_audio = self.get_node("../UISound")
 
 func _input(event: InputEvent) -> void:
+	if (event is InputEventKey):
+		if (event.keycode == KEY_1):
+			self.manager.set_selected_type(Manager.PLANT_TYPE.TOMATO)
+		elif (event.keycode == KEY_2):
+			self.manager.set_selected_type(Manager.PLANT_TYPE.PEA)
+		elif (event.keycode == KEY_3):
+			self.manager.set_selected_type(Manager.PLANT_TYPE.FLY_TRAP)
+	
 	if (event is InputEventMouseButton):
 		if (event.button_index == MOUSE_BUTTON_LEFT):
 			# get the parent, then call our manager script func to place a plant
 			var grid_coords = manager.get_grid_from_world_vec(get_global_mouse_position())
-			manager.add_plant(manager.PLANT_TYPE.TOMATO, grid_coords.x, grid_coords.y)
+			manager.add_plant(self.manager.get_selected_type(), grid_coords.x, grid_coords.y)
 			ui_audio.stream = PLANT_PLACE_SFX
 			ui_audio.play()
 		#elif (event.button_index == MOUSE_BUTTON_RIGHT):

@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpamdhgkpv4fp"]
+[gd_scene load_steps=7 format=3 uid="uid://bpamdhgkpv4fp"]
 
 [ext_resource type="Script" uid="uid://v01rpncxyy0f" path="res://Scripts/debug_ui.gd" id="1_jhhbj"]
+[ext_resource type="Shader" uid="uid://r4wcccfyfko5" path="res://Shaders/debug-ui-plant.gdshader" id="2_52fps"]
+[ext_resource type="Texture2D" uid="uid://cme7mq16re2ld" path="res://Resources/plants.png" id="2_y3irw"]
+[ext_resource type="Texture2D" uid="uid://cvrbgq1dc8we4" path="res://Resources/FlyTrap.png" id="4_lglsl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lglsl"]
+shader = ExtResource("2_52fps")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8sqmh"]
+shader = ExtResource("2_52fps")
 
 [node name="DebugUi" type="Control"]
 layout_mode = 3
@@ -72,3 +81,35 @@ offset_bottom = -427.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Kills:"
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 576.0
+offset_right = -896.0
+
+[node name="Tomato" type="Sprite2D" parent="CanvasLayer/Panel"]
+material = SubResource("ShaderMaterial_lglsl")
+position = Vector2(32, 32)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("2_y3irw")
+hframes = 4
+vframes = 4
+frame = 10
+
+[node name="Pea" type="Sprite2D" parent="CanvasLayer/Panel"]
+material = SubResource("ShaderMaterial_lglsl")
+position = Vector2(88, 32)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("2_y3irw")
+hframes = 4
+vframes = 4
+frame = 9
+
+[node name="FlyTrap" type="Sprite2D" parent="CanvasLayer/Panel"]
+material = SubResource("ShaderMaterial_8sqmh")
+instance_shader_parameters/isSelected = false
+position = Vector2(160, 32)
+texture = ExtResource("4_lglsl")
+hframes = 4

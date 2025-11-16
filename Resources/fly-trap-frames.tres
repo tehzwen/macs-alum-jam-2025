@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://brv5rxerejfm1"]
+
+[ext_resource type="Texture2D" uid="uid://cvrbgq1dc8we4" path="res://Resources/FlyTrap.png" id="1_2wb26"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmhai"]
+atlas = ExtResource("1_2wb26")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5jvg"]
+atlas = ExtResource("1_2wb26")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tyqld"]
+atlas = ExtResource("1_2wb26")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uceh4"]
+atlas = ExtResource("1_2wb26")
+region = Rect2(192, 0, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmhai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5jvg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tyqld")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uceh4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

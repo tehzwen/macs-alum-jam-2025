@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qp774cieg8g2"
-path="res://.godot/imported/tomato.jpg-93be84b865f27f6d3ff2e66bc544d73b.ctex"
+uid="uid://tvj10he7se3e"
+path="res://.godot/imported/FarmTileSetD.png-1db555d2e15dbab67ea27dca15da389a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/tomato.jpg"
-dest_files=["res://.godot/imported/tomato.jpg-93be84b865f27f6d3ff2e66bc544d73b.ctex"]
+source_file="res://Resources/FarmTileSetD.png"
+dest_files=["res://.godot/imported/FarmTileSetD.png-1db555d2e15dbab67ea27dca15da389a.ctex"]
 
 [params]
 

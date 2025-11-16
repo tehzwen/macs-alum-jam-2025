@@ -1,26 +1,27 @@
 [gd_scene load_steps=5 format=3 uid="uid://diesxi316qmor"]
 
-[ext_resource type="Texture2D" uid="uid://d1tp2qouqxfmr" path="res://Resources/peashooter.png" id="1_fqfcn"]
 [ext_resource type="Script" uid="uid://blh2xpfhfkj2t" path="res://Scripts/pea-plant.gd" id="1_mfy48"]
 [ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="3_6jun7"]
+[ext_resource type="SpriteFrames" uid="uid://dew7nchqv271p" path="res://Resources/pea-plant-frames.tres" id="4_5c7k7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqfcn"]
-size = Vector2(42, 92)
+size = Vector2(43, 48)
 
 [node name="PeaPlant" type="Node2D"]
 script = ExtResource("1_mfy48")
-
-[node name="Peashooter" type="Sprite2D" parent="."]
-position = Vector2(7.03547e-06, 3.8146973e-06)
-scale = Vector2(0.09964414, 0.21497121)
-texture = ExtResource("1_fqfcn")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(2, 4)
+position = Vector2(2.5, 0)
 shape = SubResource("RectangleShape2D_fqfcn")
 
 [node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_6jun7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1.1920929e-07, 0)
+scale = Vector2(1.3749999, 1.3749999)
+sprite_frames = ExtResource("4_5c7k7")
+speed_scale = 0.2
