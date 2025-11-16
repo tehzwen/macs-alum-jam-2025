@@ -13,6 +13,7 @@ var attack_cooldown = 0.5
 var attack_timer = 0.0
 var reached_target: Node2D
 var sprite: AnimatedSprite2D
+var seen_nodes = {}
 
 func initialize(id: String) -> void:
 	self.max_hp = self.total_hp
@@ -52,9 +53,27 @@ func die():
 	queue_free()
 
 func _process(delta: float) -> void:
-	if (self.reached_target != null):
-		#self.sprite.stop()
+	if (self.target != null and self.reached_target == null):
+		self.move_to_target()
+	elif (self.reached_target != null):
 		self.attack_timer -= delta
 		if (self.attack_timer <= 0.0):
 			self.attack_timer = self.attack_cooldown
 			self.attack()
+	elif (self.target == null and self.reached_target == null):
+		if (self.seen_nodes.size() > 0):
+			# just pick something we've seen, prioritize plants
+			for key in self.seen_nodes.keys():
+				var seen = self.seen_nodes.get(key)
+				
+				if (seen is Plant):
+					self.set_target(seen)
+					break
+				elif (seen is Bug):
+					# check if our fellow bug is targetting a plant
+					var bug_script: Bug = seen
+					if (bug_script.target != null):
+						self.set_target(bug_script.target)
+		else:
+			# we need to give them some help
+			pass

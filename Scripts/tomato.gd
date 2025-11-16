@@ -2,7 +2,7 @@ extends Node2D
 
 class_name Tomato
 
-@export var speed: float = 1.0
+@export var speed: float = 1.5
 @export var damage: float = 25
 @export var max_distance: float = 1000 
 

@@ -8,7 +8,6 @@ func initialize():
 	super.initialize()
 	self.attack_cooldown = 0.25
 	self.attack_duration = 0.1
-	self.range = 500
 	print("im a pea plant!")
 	$AnimatedSprite2D.play("default")
 
@@ -23,3 +22,10 @@ func attack():
 	var pea_script: Pea = projectile
 	pea_script.direction = direction
 	add_child(projectile)
+
+
+func _on_vision_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes[area_rid.get_id()] = area.get_parent()
+
+func _on_vision_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes.erase(area_rid.get_id())

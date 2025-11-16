@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://diesxi316qmor"]
+[gd_scene load_steps=6 format=3 uid="uid://diesxi316qmor"]
 
 [ext_resource type="Script" uid="uid://blh2xpfhfkj2t" path="res://Scripts/pea-plant.gd" id="1_mfy48"]
 [ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="3_6jun7"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqfcn"]
 size = Vector2(43, 48)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6jun7"]
+radius = 208.0
 
 [node name="PeaPlant" type="Node2D"]
 script = ExtResource("1_mfy48")
@@ -25,3 +28,12 @@ position = Vector2(1.1920929e-07, 0)
 scale = Vector2(1.3749999, 1.3749999)
 sprite_frames = ExtResource("4_5c7k7")
 speed_scale = 0.2
+
+[node name="Vision" type="Area2D" parent="."]
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_6jun7")
+
+[connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
+[connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

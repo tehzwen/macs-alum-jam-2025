@@ -6,7 +6,6 @@ var instantiated_vines = []
 
 func initialize():
 	super.initialize()
-	self.range = 500
 	self.attack_cooldown = 1.0
 	self.attack_duration = 3
 	print("im a vine plant!")
@@ -44,3 +43,10 @@ func attack():
 	var projectile = vine_projectile_scene.instantiate()
 	self.current_target.add_child(projectile)
 	self.instantiated_vines.push_back(projectile)
+
+
+func _on_vision_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes[area_rid.get_id()] = area.get_parent()
+
+func _on_vision_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes.erase(area_rid.get_id())

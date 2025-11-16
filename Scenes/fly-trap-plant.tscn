@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://obu0sp0mw38s"]
+[gd_scene load_steps=6 format=3 uid="uid://obu0sp0mw38s"]
 
 [ext_resource type="Script" uid="uid://d0oy68xlun7vl" path="res://Scripts/fly_trap_plant.gd" id="1_okm1t"]
 [ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="1_rm2rg"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v50tt"]
 size = Vector2(208, 216)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_okm1t"]
+radius = 176.01137
 
 [node name="FlyTrapPlant" type="Node2D"]
 script = ExtResource("1_okm1t")
@@ -30,3 +33,13 @@ scale = Vector2(3.4999998, 3.4999998)
 sprite_frames = ExtResource("3_okm1t")
 frame = 1
 frame_progress = 0.6163495
+
+[node name="Vision" type="Area2D" parent="."]
+position = Vector2(56, 56)
+collision_layer = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_okm1t")
+
+[connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
+[connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

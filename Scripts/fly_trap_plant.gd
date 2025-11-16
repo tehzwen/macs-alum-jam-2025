@@ -11,7 +11,6 @@ var bite_attack: FlyTrapProjectile
 func initialize():
 	super.initialize()
 	self.attack_cooldown = 0.5
-	self.range = 150
 	self.total_hp = 500
 	self.grid_height = 2
 	self.grid_width = 2
@@ -33,6 +32,13 @@ func attack():
 		self.current_target.add_child(projectile)
 		self.spawned_bite_attack = true
 		self.bite_attack = projectile
-		
 	var bug_script: Bug = self.current_target
 	bug_script.take_damage(self.bite_attack.damage)
+
+
+func _on_vision_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes[area_rid.get_id()] = area.get_parent()
+
+
+func _on_vision_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.seen_nodes.erase(area_rid.get_id())

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://gy1cf5y528dh"]
+[gd_scene load_steps=7 format=3 uid="uid://gy1cf5y528dh"]
 
 [ext_resource type="Script" uid="uid://b7uoq44mmtn5a" path="res://Scripts/bomber-bug.gd" id="1_08ufo"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_2hsh2"]
@@ -10,6 +10,9 @@ size = Vector2(96, 90)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2hsh2"]
 shader = ExtResource("2_2hsh2")
 shader_parameter/base_color = Vector3(1, 0, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2hsh2"]
+radius = 1182.2047
 
 [node name="BomberBug" type="Node2D"]
 script = ExtResource("1_08ufo")
@@ -29,3 +32,13 @@ animation = &"attack"
 
 [node name="ShooterMarker" type="Marker2D" parent="."]
 position = Vector2(5, -29)
+
+[node name="Vision" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_2hsh2")
+
+[connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
+[connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]
