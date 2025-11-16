@@ -3,7 +3,7 @@ extends Node2D
 class_name Bug
 
 var id: String
-var max_hp: float = 50
+var max_hp: float
 var total_hp: float = 50
 var damage: float = 0.5
 var target: Node2D
@@ -11,26 +11,24 @@ var move_speed: float = 0.5
 var attack_cooldown = 0.5
 var attack_timer = 0.0
 var reached_target: Node2D
-var sprite: Sprite2D
+var sprite: AnimatedSprite2D
 
 func initialize(id: String) -> void:
+	self.max_hp = self.total_hp
 	self.id = id
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
-	#print("me a bug with id of %s" % id)
+	sprite.play("default")
 
 func get_id():
 	return self.id
 
 func set_target(target: Node2D):
 	self.target = target
-	#if (target != null):
-		#print("my target is now " + target.to_string())
 	
 func take_damage(damage: float):
 	if (self.total_hp > 0):
 		self.total_hp -= damage
-	#print("I have %d hp left" % self.total_hp)
 	var health_percentage = self.total_hp / self.max_hp
 	
 	if (sprite != null):
@@ -53,6 +51,7 @@ func die():
 
 func _process(delta: float) -> void:
 	if (self.reached_target != null):
+		self.sprite.stop()
 		self.attack_timer -= delta
 		if (self.attack_timer <= 0.0):
 			self.attack_timer = self.attack_cooldown

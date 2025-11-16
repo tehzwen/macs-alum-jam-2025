@@ -6,6 +6,7 @@ const ant_scene: PackedScene = preload("res://Scenes/ant.tscn")
 const bomber_scene: PackedScene = preload("res://Scenes/bomber-bug.tscn")
 const tomato_plant_scene: PackedScene = preload("res://Scenes/tomato-plant.tscn")
 const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
+const fly_trap_plant_scene: PackedScene = preload("res://Scenes/fly-trap-plant.tscn")
 const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
 
 @export var col_height: float = 112
@@ -23,6 +24,7 @@ var wave_amount: int = 20
 var kills: int = 0
 var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
+var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
 
 enum BUG_TYPE {
 	ANT,
@@ -31,8 +33,15 @@ enum BUG_TYPE {
 
 enum PLANT_TYPE {
 	TOMATO,
-	PEA
+	PEA,
+	FLY_TRAP
 }
+
+func get_selected_type() -> PLANT_TYPE:
+	return self.selected_type
+
+func set_selected_type(type: PLANT_TYPE):
+	self.selected_type = type
 
 func get_kills() -> int:
 	return self.kills
@@ -65,8 +74,6 @@ func clear_grid_positions(coords: Vector2, dimensions: Vector2):
 # returns empty array if cannot be placed
 func can_place_in_grid(coords: Vector2, dimensions: Vector2) -> Array:
 	var desired_indices = []
-	
-	print(coords)
 	
 	var allowed: bool = true
 	for i in range(dimensions.x):
@@ -132,6 +139,8 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		plant_node = tomato_plant_scene.instantiate()
 	elif (plant_type == PLANT_TYPE.PEA):
 		plant_node = pea_plant_scene.instantiate()
+	elif (plant_type == PLANT_TYPE.FLY_TRAP):
+		plant_node = fly_trap_plant_scene.instantiate()
 		
 	plant_script = plant_node
 	# is there anything in our grid at these coords?
@@ -185,20 +194,22 @@ func _ready():
 				
 		self.game_grid.push_back(column)
 	
-	add_plant(PLANT_TYPE.TOMATO, 4, 4)
-	add_plant(PLANT_TYPE.PEA, 5, 5)
+	#add_plant(PLANT_TYPE.TOMATO, 4, 4)
+	#add_plant(PLANT_TYPE.PEA, 5, 5)
+	add_plant(PLANT_TYPE.FLY_TRAP, 6,6)
 
 func _process(delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
-		var type = BUG_TYPE.BOMBER
-		if (rand_bug == -1):
-			type = BUG_TYPE.ANT
+		# hardcode until I have animated sprite since it crashes if theyre both not consistent
+		var type = BUG_TYPE.ANT
+		#if (rand_bug == -1):
+			#type = BUG_TYPE.ANT
 		
-		var ant = new_bug(bug_id, type)
-		add_child(ant)
-		active_bugs.push_back(ant)
+		var bug = new_bug(bug_id, type)
+		add_child(bug)
+		active_bugs.push_back(bug)
 		self.num_current_bugs += 1
 	elif active_bugs.size() == 0 and self.wave_manager.get_remaining() < 0 and not self.wave_manager.waiting:
 		# todo - run a timer here then spawn the next wave
@@ -252,8 +263,12 @@ func _process(delta: float) -> void:
 	# handle plant targetting
 	for i in range(len(self.active_plants)):
 		var plant_script: Plant = self.active_plants[i]
-		var distance = INF
 		
+		# check if the plant's target is still in range, if it is, no sense in re-targetting
+		if (plant_script.current_target != null and (self.active_plants[i].position.distance_to(self.active_plants[i].current_target.position) < plant_script.range)):
+			continue
+		
+		var distance = INF
 		for j in range(len(self.active_bugs)):
 			var bug_script: Bug = self.active_bugs[j]
 			var current_distance = self.active_plants[i].position.distance_to(self.active_bugs[j].position)

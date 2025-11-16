@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh8mq6ee518ab"
-path="res://.godot/imported/ant.jpg-734ac629b6bf58cebea8c80a2c7de6c1.ctex"
+uid="uid://cvrbgq1dc8we4"
+path="res://.godot/imported/FlyTrap.png-f71c6f24a8324173a41a781eb8806e4a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Resources/ant.jpg"
-dest_files=["res://.godot/imported/ant.jpg-734ac629b6bf58cebea8c80a2c7de6c1.ctex"]
+source_file="res://Resources/FlyTrap.png"
+dest_files=["res://.godot/imported/FlyTrap.png-f71c6f24a8324173a41a781eb8806e4a.ctex"]
 
 [params]
 

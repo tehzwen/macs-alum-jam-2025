@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://obu0sp0mw38s"]
+
+[ext_resource type="Script" uid="uid://d0oy68xlun7vl" path="res://Scripts/fly_trap_plant.gd" id="1_okm1t"]
+[ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="1_rm2rg"]
+[ext_resource type="SpriteFrames" uid="uid://brv5rxerejfm1" path="res://Resources/fly-trap-frames.tres" id="3_okm1t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v50tt"]
+size = Vector2(208, 216)
+
+[node name="FlyTrapPlant" type="Node2D"]
+script = ExtResource("1_okm1t")
+grid_width = 2
+grid_height = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(55.999992, 55.999992)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_v50tt")
+
+[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(55.999992, 55.999992)
+stream = ExtResource("1_rm2rg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(55.999992, 55.999992)
+scale = Vector2(3.4999998, 3.4999998)
+sprite_frames = ExtResource("3_okm1t")
+frame = 1
+frame_progress = 0.6163495

@@ -8,6 +8,7 @@ func initialize():
 	super.initialize()
 	self.attack_cooldown = 1.5
 	print("im a tomato plant!")
+	$AnimatedSprite2D.play("default")
 
 func attack():
 	super.attack()

@@ -1,25 +1,18 @@
 [gd_scene load_steps=6 format=3 uid="uid://cfxs1acjvwxph"]
 
 [ext_resource type="Script" uid="uid://b1vy04o4dirsa" path="res://Scripts/ant.gd" id="1_4ydk5"]
-[ext_resource type="Texture2D" uid="uid://dh8mq6ee518ab" path="res://Resources/ant.jpg" id="2_fd48h"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_wtaqj"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yntpf"]
-shader = ExtResource("2_wtaqj")
-shader_parameter/base_color = Vector3(1, 0, 0)
+[ext_resource type="SpriteFrames" uid="uid://kutq4ho2opnr" path="res://Resources/ant_sprite_frames.tres" id="4_wtaqj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtaqj"]
 size = Vector2(54, 64)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wtaqj"]
+shader = ExtResource("2_wtaqj")
+shader_parameter/base_color = Vector3(1, 0, 0)
+
 [node name="Ant" type="Node2D"]
 script = ExtResource("1_4ydk5")
-
-[node name="Sprite" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_yntpf")
-instance_shader_parameters/health_percentage = 1.0
-position = Vector2(-1.0000153, 1)
-scale = Vector2(0.12268519, 0.14814815)
-texture = ExtResource("2_fd48h")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 2
@@ -27,5 +20,10 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_wtaqj")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_wtaqj")
+instance_shader_parameters/health_percentage = 1.0
+sprite_frames = ExtResource("4_wtaqj")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
