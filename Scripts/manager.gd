@@ -198,17 +198,17 @@ func _ready():
 				
 		self.game_grid.push_back(column)
 	
-	#add_plant(PLANT_TYPE.TOMATO, 4, 4)
+	add_plant(PLANT_TYPE.FLY_TRAP, 4, 4)
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
-	add_plant(PLANT_TYPE.VINE, 4,4)
+	#add_plant(PLANT_TYPE.VINE, 4,4)
 
 func _process(delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
 		var type = BUG_TYPE.BOMBER
-		#if (rand_bug == -1):
-			#type = BUG_TYPE.ANT
+		if (rand_bug == -1):
+			type = BUG_TYPE.ANT
 		
 		var bug = new_bug(bug_id, type)
 		add_child(bug)
@@ -220,62 +220,34 @@ func _process(delta: float) -> void:
 		await get_tree().create_timer(3.0).timeout
 		self.wave_manager.next_wave()
 	
-	# handle bug targetting
-	for i in range(len(self.active_bugs)):
-		# hack for when range is called and dead bug is tried
-		if (i >= len(self.active_bugs)):
+	# handle plant death
+	for i in range(len(self.active_plants)):
+		if (i >= len(self.active_plants)):
+			continue
+		var plant = self.active_plants[i]
+		if (not is_instance_valid(plant)):
 			continue
 		
-		var current_bug = self.active_bugs[i]
-		var bug_script: Bug = current_bug
+		var plant_script: Plant = self.active_plants[i]
+		if (plant_script.total_hp <= 0):
+			self.active_plants.remove_at(i)
+			clear_grid_positions(plant_script.grid_position, plant_script.get_dimensions())
+			plant_script.die()
+			num_current_plants -= 1
+			continue
+			
+	# handle bug death
+	for i in range(len(self.active_bugs)):
+		if (i >= len(self.active_bugs)):
+			continue
+		var bug = self.active_bugs[i]
+		if (not is_instance_valid(bug)):
+			continue
 		
+		var bug_script: Bug = self.active_bugs[i]
 		if (bug_script.total_hp <= 0):
-			#self.active_bugs.erase(id)
 			self.active_bugs.remove_at(i)
 			bug_script.die()
-			self.kills += 1
 			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
 			continue
-		
-		if (bug_script.get_target() != null):
-			# progress them toward their target
-			bug_script.move_to_target()
-			continue
-		
-		var distance = INF
-		for j in range(len(self.active_plants)):
-			# hack for when range is called and dead plant is tried
-			if (j >= len(self.active_plants)):
-				continue
-			var plant_script: Plant = self.active_plants[j]
-			# check if the plant is still alive
-			if (plant_script.total_hp <= 0):
-				self.active_plants.remove_at(j)
-				# todo: clean up the grid coords for this plant
-				clear_grid_positions(plant_script.grid_position, plant_script.get_dimensions())
-				plant_script.die()
-				num_current_plants -= 1
-				continue
-			
-			var plant_distance = current_bug.position.distance_to(self.active_plants[j].position)
-			if (plant_distance < distance):
-				distance = plant_distance
-				bug_script.set_target(self.active_plants[j])
-	
-	# handle plant targetting
-	for i in range(len(self.active_plants)):
-		var plant_script: Plant = self.active_plants[i]
-		
-		# check if the plant's target is still in range, if it is, no sense in re-targetting
-		if (plant_script.current_target != null and (self.active_plants[i].position.distance_to(self.active_plants[i].current_target.position) < plant_script.range)):
-			continue
-		
-		var distance = INF
-		for j in range(len(self.active_bugs)):
-			var bug_script: Bug = self.active_bugs[j]
-			var current_distance = self.active_plants[i].position.distance_to(self.active_bugs[j].position)
-			if (current_distance < distance):
-				distance = current_distance
-				if (distance <= plant_script.range):
-					plant_script.set_target(self.active_bugs[j])
