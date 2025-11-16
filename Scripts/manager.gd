@@ -10,6 +10,9 @@ const fly_trap_plant_scene: PackedScene = preload("res://Scenes/fly-trap-plant.t
 const vine_plant_scene: PackedScene = preload("res://Scenes/vine-plant.tscn")
 const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
 
+var music_stream: AudioStreamPlayer
+var manager: Manager
+
 @export var col_height: float = 112
 @export var row_width: float = 112
 @export var num_cols: int = 10
@@ -160,6 +163,8 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 func _ready():
 	self.wave_manager.initialize()
 	
+	music_stream = self.get_node("../Music")
+	
 	# generate our game grid structure
 	for i in range(self.num_cols):
 		var column = []
@@ -251,3 +256,8 @@ func _process(delta: float) -> void:
 			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
 			continue
+
+	var wave_number = wave_manager.get_wave_number()
+	if wave_number > 1:
+		var pitch_scale = 1.0 + (float(wave_manager.get_wave_number())/100.0)
+		music_stream.pitch_scale = min(pitch_scale, 1.7)
