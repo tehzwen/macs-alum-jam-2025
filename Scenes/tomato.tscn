@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://ct7p6t2t3rt1l"]
+[gd_scene load_steps=5 format=3 uid="uid://ct7p6t2t3rt1l"]
 
 [ext_resource type="Script" uid="uid://clwapru8x88ar" path="res://Scripts/tomato.gd" id="1_bnlwl"]
 [ext_resource type="Texture2D" uid="uid://qp774cieg8g2" path="res://Resources/tomato.jpg" id="1_ho7p5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bnlwl"]
 radius = 32.38827
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h05cf"]
+radius = 138.03261
 
 [node name="Tomato" type="Node2D"]
 script = ExtResource("1_bnlwl")
@@ -20,4 +23,12 @@ collision_layer = 4
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_bnlwl")
 
+[node name="AoeArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="AoeCollisionShape2D" type="CollisionShape2D" parent="AoeArea"]
+shape = SubResource("CircleShape2D_h05cf")
+
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="area_shape_entered" from="AoeArea" to="." method="_on_aoe_area_area_shape_entered"]
+[connection signal="area_shape_exited" from="AoeArea" to="." method="_on_aoe_area_area_shape_exited"]
