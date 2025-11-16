@@ -20,6 +20,9 @@ func next_wave():
 func get_active_enemy_count() -> int:
 	# based on the wave we want a specific amount of enemies active at once
 	return self.current_wave_num * self.WAVE_MULTIPLIER
+	
+func get_wave_number() -> int:
+	return self.current_wave_num
 
 func total_enemies_for_wave() -> int:
 	self.total = self.get_active_enemy_count() * 2
