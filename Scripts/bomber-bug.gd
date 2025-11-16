@@ -25,7 +25,7 @@ func attack():
 	
 func initialize(id: String) -> void:
 	super.initialize(id)
-	self.damage = 0.1
+	self.damage = 10
 	self.attack_cooldown = 1.0
 	
 func move_to_target():

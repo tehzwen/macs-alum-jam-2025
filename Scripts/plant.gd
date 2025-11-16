@@ -11,6 +11,7 @@ var current_target: Node2D = null
 var attack_cooldown: float
 var attack_timer = 0.0
 var attack_audio_stream: AudioStreamPlayer2D
+var grid_position: Vector2
 
 func _ready() -> void:
 	self.attack_audio_stream = get_node('AudioStream')

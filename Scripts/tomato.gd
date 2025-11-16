@@ -8,12 +8,8 @@ class_name Tomato
 
 var direction: Vector2
 var distance_travelled: float = 0
+var aoe_targets = {}
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	self.position += self.direction * self.speed
 	self.distance_travelled += self.speed
@@ -22,7 +18,14 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _on_area_2d_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
-	# deal the damage to the bug, despawn, make noise
-	var bug_script: Bug = area.get_parent()
-	bug_script.take_damage(self.damage)
+	for key in self.aoe_targets:
+		var bug_script: Bug = self.aoe_targets[key]
+		bug_script.take_damage(self.damage)
+	
 	queue_free()
+
+func _on_aoe_area_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.aoe_targets[area_rid.get_id()] = area.get_parent()
+
+func _on_aoe_area_area_shape_exited(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
+	self.aoe_targets.erase(area_rid.get_id())

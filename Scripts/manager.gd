@@ -15,7 +15,7 @@ const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.t
 
 var game_grid: Array[Array] = []
 var active_bugs = []
-var active_plants = {}
+var active_plants = []
 var num_current_bugs = 0
 var num_current_plants = 0
 var current_round: int = 1
@@ -56,14 +56,24 @@ func get_grid_from_world_vec(world: Vector2) -> Vector2:
 	var row = roundi(world.y/self.row_width)
 	return Vector2(col, row)
 	
+func clear_grid_positions(coords: Vector2, dimensions: Vector2):
+	for i in range(dimensions.x):
+		for j in range(dimensions.y):
+			self.game_grid[coords.x + i][coords.y + j] = null
+	
 # helper for determining if an object can be placed in the grid or not,
 # returns empty array if cannot be placed
 func can_place_in_grid(coords: Vector2, dimensions: Vector2) -> Array:
 	var desired_indices = []
 	
+	print(coords)
+	
 	var allowed: bool = true
 	for i in range(dimensions.x):
 		for j in range(dimensions.y):
+			if ((coords.x + i > self.num_cols - 2 or coords.y + j > self.num_rows - 2) or (coords.x + i < 1 or coords.y + j < 1)):
+				allowed = false
+				break
 			if (self.game_grid[coords.x + i][coords.y + j] == null):
 				desired_indices.push_back(Vector2(coords.x+i, coords.y+j))
 			else:
@@ -128,8 +138,9 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 	if (place_in_grid(plant_id, Vector2(col, row), plant_script.get_dimensions())):
 		# get the position derived from the col & row
 		plant_node.position = Vector2(col * self.col_height, row * self.row_width)
-		self.active_plants[plant_id] = plant_node
+		self.active_plants.push_back(plant_node)
 		plant_script.initialize()
+		plant_script.grid_position = Vector2(col, row)
 		add_child(plant_node)
 		num_current_plants += 1
 
@@ -219,30 +230,34 @@ func _process(delta: float) -> void:
 			continue
 		
 		var distance = INF
-		for plant_id in self.active_plants:
-			var plant_script: Plant = self.active_plants[plant_id]
+		for j in range(len(self.active_plants)):
+			# hack for when range is called and dead plant is tried
+			if (j >= len(self.active_plants)):
+				continue
+			var plant_script: Plant = self.active_plants[j]
 			# check if the plant is still alive
 			if (plant_script.total_hp <= 0):
-				self.active_plants.erase(plant_id)
+				self.active_plants.remove_at(j)
 				# todo: clean up the grid coords for this plant
+				clear_grid_positions(plant_script.grid_position, plant_script.get_dimensions())
 				plant_script.die()
 				num_current_plants -= 1
 				continue
 			
-			var plant_distance = current_bug.position.distance_to(self.active_plants[plant_id].position)
+			var plant_distance = current_bug.position.distance_to(self.active_plants[j].position)
 			if (plant_distance < distance):
 				distance = plant_distance
-				bug_script.set_target(self.active_plants[plant_id])
+				bug_script.set_target(self.active_plants[j])
 	
 	# handle plant targetting
-	for plant_id in self.active_plants:
-		var plant_script: Plant = self.active_plants[plant_id]
+	for i in range(len(self.active_plants)):
+		var plant_script: Plant = self.active_plants[i]
 		var distance = INF
 		
-		for i in range(len(self.active_bugs)):
-			var bug_script: Bug = self.active_bugs[i]
-			var current_distance = self.active_plants[plant_id].position.distance_to(self.active_bugs[i].position)
+		for j in range(len(self.active_bugs)):
+			var bug_script: Bug = self.active_bugs[j]
+			var current_distance = self.active_plants[i].position.distance_to(self.active_bugs[j].position)
 			if (current_distance < distance):
 				distance = current_distance
 				if (distance <= plant_script.range):
-					plant_script.set_target(self.active_bugs[i])
+					plant_script.set_target(self.active_bugs[j])
