@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cfxs1acjvwxph"]
+[gd_scene load_steps=8 format=3 uid="uid://cfxs1acjvwxph"]
 
 [ext_resource type="Script" uid="uid://b1vy04o4dirsa" path="res://Scripts/ant.gd" id="1_4ydk5"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_wtaqj"]
 [ext_resource type="SpriteFrames" uid="uid://kutq4ho2opnr" path="res://Resources/ant-sprite-frames.tres" id="4_wtaqj"]
+[ext_resource type="AudioStream" uid="uid://csi101raearkg" path="res://Sound/SFX/Gameplay/ant_attack.wav" id="4_yntpf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtaqj"]
 size = Vector2(54, 64)
@@ -35,6 +36,9 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_fd48h")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yntpf")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
