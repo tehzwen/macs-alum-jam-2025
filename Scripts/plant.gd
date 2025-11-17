@@ -17,15 +17,11 @@ var grid_position: Vector2
 var is_attacking: bool = false
 var seen_nodes = {}
 
-
-func _ready() -> void:
-	self.attack_audio_stream = get_node('AudioStream')
-
 func initialize():
 	print("im a plant!")
 
 func attack():
-	self.attack_audio_stream.play()
+	return
 
 func take_damage(damage: float):
 	if (self.total_hp > 0):

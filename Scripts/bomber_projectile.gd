@@ -6,12 +6,14 @@ class_name BomberProjectile
 @export var damage: float = 25
 @export var max_distance: float = 250
 
+var projectile_explosion_sound: AudioStreamPlayer2D
 var direction: Vector2
 var distance_travelled: float = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite2D.play("default")
+	projectile_explosion_sound = get_node("ExplosionSound")
 
 func _process(delta: float) -> void:
 	self.position += self.direction * self.speed
@@ -23,4 +25,6 @@ func _process(delta: float) -> void:
 func _on_area_2d_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	var plant_script: Plant = area.get_parent()
 	plant_script.take_damage(self.damage)
+	projectile_explosion_sound.play()
+	print("played projectile explosion")
 	queue_free()

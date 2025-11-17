@@ -4,11 +4,15 @@ class_name PeaPlant
 
 const pea_projectile_scene: PackedScene = preload("res://Scenes/pea.tscn")
 
+var pea_attack_sound: AudioStreamPlayer2D
+
+func _ready() -> void:
+	pea_attack_sound = get_node("AttackSound")
+
 func initialize():
 	super.initialize()
 	self.attack_cooldown = 0.25
 	self.attack_duration = 0.1
-	print("im a pea plant!")
 	$AnimatedSprite2D.play("default")
 
 func attack():
@@ -18,6 +22,7 @@ func attack():
 	# spawn in a tomato and send it toward the bug
 	var direction = (self.current_target.position - self.position).normalized()
 	var projectile = pea_projectile_scene.instantiate()
+	pea_attack_sound.play()
 	# get the tomato script and feed it the direction it's meant to go in
 	var pea_script: Pea = projectile
 	pea_script.direction = direction

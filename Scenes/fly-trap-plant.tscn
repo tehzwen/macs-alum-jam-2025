@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://obu0sp0mw38s"]
 
 [ext_resource type="Script" uid="uid://d0oy68xlun7vl" path="res://Scripts/fly_trap_plant.gd" id="1_okm1t"]
-[ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="1_rm2rg"]
+[ext_resource type="AudioStream" uid="uid://7a7xxq5ypbsy" path="res://Sound/SFX/Gameplay/flytrap_attack.wav" id="2_okm1t"]
 [ext_resource type="SpriteFrames" uid="uid://brv5rxerejfm1" path="res://Resources/fly-trap-frames.tres" id="3_okm1t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v50tt"]
@@ -39,6 +39,9 @@ collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_okm1t")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_okm1t")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ct7p6t2t3rt1l"]
+[gd_scene load_steps=6 format=3 uid="uid://ct7p6t2t3rt1l"]
 
 [ext_resource type="Script" uid="uid://clwapru8x88ar" path="res://Scripts/tomato.gd" id="1_bnlwl"]
 [ext_resource type="Texture2D" uid="uid://cme7mq16re2ld" path="res://Resources/plants.png" id="2_bnlwl"]
+[ext_resource type="AudioStream" uid="uid://dfvplt5roqbh6" path="res://Sound/SFX/Gameplay/tomato_splash.wav" id="3_h05cf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bnlwl"]
 radius = 8.0
@@ -30,6 +31,9 @@ texture = ExtResource("2_bnlwl")
 hframes = 4
 vframes = 4
 frame = 12
+
+[node name="TomatoSplashSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_h05cf")
 
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
 [connection signal="area_shape_entered" from="AoeArea" to="." method="_on_aoe_area_area_shape_entered"]

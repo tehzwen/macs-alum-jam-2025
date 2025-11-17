@@ -2,6 +2,8 @@ extends Bug
 
 class_name BomberBug
 
+var attack_audio_stream: AudioStreamPlayer2D
+
 const bomber_bug_projectile_scene: PackedScene = preload("res://Scenes/bomber-projectile.tscn")
 @export var range: float = 150
 
@@ -9,6 +11,9 @@ var projectile_node: Node2D
 var projectile_sprite: Sprite2D
 var attack_started: bool = false
 var walk_started: bool = false
+
+func _ready() -> void:
+	attack_audio_stream = get_node("AttackSound")
 
 func attack():
 	super.attack()
@@ -18,6 +23,7 @@ func attack():
 	
 	if (not self.attack_started):
 		$Sprite.play("attack")
+		attack_audio_stream.play()
 		self.attack_started = true
 	var direction = (self.reached_target.position - self.position).normalized()
 	projectile_node = inst
