@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://bor67blktj4m5"]
 
 [ext_resource type="Script" uid="uid://8qs2bsjwojx8" path="res://Scripts/tomato-plant.gd" id="1_7gy0g"]
-[ext_resource type="AudioStream" uid="uid://c61escs0p8lch" path="res://Sound/SFX/Gameplay/heavy_sound.wav" id="3_as3ei"]
+[ext_resource type="AudioStream" uid="uid://cuu5iadqs8mo4" path="res://Sound/SFX/Gameplay/plant-add-remove.wav" id="2_as3ei"]
 [ext_resource type="SpriteFrames" uid="uid://dxl3fy3ixxvhe" path="res://Resources/tomato-plant-frames.tres" id="4_wp7j5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xewkx"]
@@ -20,7 +20,7 @@ collision_layer = 2
 shape = SubResource("RectangleShape2D_xewkx")
 
 [node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_as3ei")
+stream = ExtResource("2_as3ei")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(3.5, 3.5)
@@ -33,6 +33,8 @@ collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_as3ei")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

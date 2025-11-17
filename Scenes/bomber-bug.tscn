@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://gy1cf5y528dh"]
+[gd_scene load_steps=8 format=3 uid="uid://gy1cf5y528dh"]
 
 [ext_resource type="Script" uid="uid://b7uoq44mmtn5a" path="res://Scripts/bomber-bug.gd" id="1_08ufo"]
 [ext_resource type="Shader" uid="uid://cj5kwlwnak0t5" path="res://Shaders/bug.gdshader" id="2_2hsh2"]
+[ext_resource type="AudioStream" uid="uid://d0gkuad5jteb4" path="res://Sound/SFX/Gameplay/bomber_attack.wav" id="4_328cr"]
 [ext_resource type="SpriteFrames" uid="uid://ljtpco7jx0k3" path="res://Resources/bomber-bug-frames.tres" id="4_yy1xb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_08ufo"]
@@ -39,6 +40,9 @@ collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_2hsh2")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_328cr")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

@@ -5,8 +5,13 @@ class_name FlyTrapPlant
 
 const fly_trap_projectile_scene: PackedScene = preload("res://Scenes/fly-trap-projectile.tscn")
 
+var flytrap_attack_sound: AudioStreamPlayer2D
+
 var spawned_bite_attack: bool = false
 var bite_attack: FlyTrapProjectile
+
+func _ready():
+	flytrap_attack_sound = get_node("AttackSound")
 
 func initialize():
 	super.initialize()
@@ -24,6 +29,7 @@ func set_target(target: Node2D):
 
 func attack():
 	super.attack()
+	flytrap_attack_sound.play() # not sure if this is in the right place
 	if (self.current_target == null):
 		return
 	if (!self.spawned_bite_attack):
