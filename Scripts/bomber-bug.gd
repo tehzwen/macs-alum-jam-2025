@@ -5,7 +5,7 @@ class_name BomberBug
 var attack_audio_stream: AudioStreamPlayer2D
 
 const bomber_bug_projectile_scene: PackedScene = preload("res://Scenes/bomber-projectile.tscn")
-@export var range: float = 200
+@export var range: float = 150
 
 var projectile_node: Node2D
 var projectile_sprite: Sprite2D

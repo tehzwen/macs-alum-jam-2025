@@ -5,7 +5,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dxl3fy3ixxvhe" path="res://Resources/tomato-plant-frames.tres" id="4_wp7j5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xewkx"]
-size = Vector2(112, 112)
+size = Vector2(32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_as3ei"]
 radius = 392.08163
@@ -23,7 +23,6 @@ shape = SubResource("RectangleShape2D_xewkx")
 stream = ExtResource("2_as3ei")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(3.5, 3.5)
 sprite_frames = ExtResource("4_wp7j5")
 frame_progress = 0.05005228
 speed_scale = 0.3
