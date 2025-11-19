@@ -33,7 +33,6 @@ func _input(event: InputEvent) -> void:
 	if (event is InputEventMouseButton):
 		if (event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
 			# get the parent, then call our manager script func to place a plant
-			print(get_global_mouse_position())
 			var grid_coords = manager.get_grid_from_world_vec(get_global_mouse_position())
 			manager.add_plant(self.manager.get_selected_type(), grid_coords.x, grid_coords.y)
 			ui_audio.stream = PLANT_PLACE_SFX
