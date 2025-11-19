@@ -15,6 +15,7 @@ func next_wave():
 	self.waiting = false
 	self.current_killed = 0
 	self.current_wave_num += 1
+	GameSignals.update_wave(1)
 	self.total_enemies_for_wave()
 
 func get_active_enemy_count() -> int:

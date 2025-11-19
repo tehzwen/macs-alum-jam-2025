@@ -50,6 +50,7 @@ func move_to_target():
 	pass
 	
 func die():
+	GameSignals.update_kill_count(1)
 	queue_free()
 
 func _process(delta: float) -> void:

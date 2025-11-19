@@ -14,3 +14,7 @@ config/name="InfectionJam"
 run/main_scene="res://Scenes/main-scene.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://Resources/icon.svg"
+
+[autoload]
+
+GameSignals="*res://Scripts/GameSignals.gd"
