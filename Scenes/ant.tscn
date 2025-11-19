@@ -29,6 +29,7 @@ shape = SubResource("RectangleShape2D_wtaqj")
 material = SubResource("ShaderMaterial_wtaqj")
 instance_shader_parameters/health_percentage = 1.0
 sprite_frames = ExtResource("4_wtaqj")
+animation = &"attack"
 
 [node name="Vision" type="Area2D" parent="."]
 collision_layer = 256

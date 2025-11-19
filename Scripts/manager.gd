@@ -9,6 +9,7 @@ const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
 const fly_trap_plant_scene: PackedScene = preload("res://Scenes/fly-trap-plant.tscn")
 const vine_plant_scene: PackedScene = preload("res://Scenes/vine-plant.tscn")
 const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
+const ant_hill_scene: PackedScene = preload("res://Scenes/ant-hill.tscn")
 
 var music_stream: AudioStreamPlayer
 var manager: Manager
@@ -21,8 +22,10 @@ var manager: Manager
 var game_grid: Array[Array] = []
 var active_bugs = []
 var active_plants = []
+var active_anthills = []
 var num_current_bugs = 0
 var num_current_plants = 0
+var num_ant_hills = 0
 var current_round: int = 1
 var wave_amount: int = 20
 var kills: int = 0
@@ -147,6 +150,24 @@ func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 
 func desired_enemies() -> int:
 	return current_round * wave_amount
+	
+func spawn_ant_hill(row, col):
+	# find an empty spot in the grid
+	#var col = rng.randi_range(0, self.num_cols)
+	#var row = rng.randi_range(0, self.num_rows)
+	
+	var hill_node: Node2D = ant_hill_scene.instantiate()
+	var hill_script: AntHill = hill_node
+	
+	#while not self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
+		#col = rng.randi_range(0, self.num_cols)
+		#row = rng.randi_range(0, self.num_rows)
+		
+	if self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
+		hill_node.position = Vector2(row * self.col_height, col * self.row_width)
+		num_ant_hills += 1
+		add_child(hill_node)
+		hill_script.on_ant_hill_spawn.connect(_on_ant_hill_spawn)
 
 func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 	var plant_node: Node2D
@@ -172,6 +193,9 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		plant_script.grid_position = Vector2(col, row)
 		add_child(plant_node)
 		num_current_plants += 1
+
+func _on_ant_hill_spawn():
+	print("anthill spawn")
 
 func _ready():
 	self.wave_manager.initialize()
@@ -236,6 +260,7 @@ func _process(delta: float) -> void:
 		self.wave_manager.waiting = true
 		await get_tree().create_timer(3.0).timeout
 		self.wave_manager.next_wave()
+		#spawn_ant_hill()
 	
 	# handle plant death
 	for i in range(len(self.active_plants)):

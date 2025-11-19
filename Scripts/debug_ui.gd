@@ -34,7 +34,7 @@ func reset_selected_uniforms():
 func _process(delta: float) -> void:
 	num_plants_label.text = "Num Plants: %d" % manager.get_num_plants()
 	num_bugs_label.text = "Num Bugs: %d" % manager.get_num_bugs()
-	remaining_label.text = "Remaining: %d" % manager.get_remaining()
+	remaining_label.text = "Remaining spawns: %d" % manager.get_remaining()
 	round_label.text = "Round: %d" % manager.get_round()
 	kills_label.text = "Kills: %d" % manager.get_kills()
 	game_speed_label.text = "Game speed: %d" % Globals.game_speed
