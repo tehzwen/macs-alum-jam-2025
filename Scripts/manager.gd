@@ -29,6 +29,8 @@ var kills: int = 0
 var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
 var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
+var time_scale = 1.0
+
 
 enum BUG_TYPE {
 	ANT,
@@ -213,7 +215,7 @@ func _ready():
 				
 		self.game_grid.push_back(column)
 	
-	add_plant(PLANT_TYPE.FLY_TRAP, 4, 4)
+	add_plant(PLANT_TYPE.TOMATO, num_cols/2, num_rows/2)
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
 	#add_plant(PLANT_TYPE.VINE, 4,4)
 
@@ -265,6 +267,7 @@ func _process(delta: float) -> void:
 			bug_script.die()
 			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
+			self.kills += 1
 			continue
 
 	var wave_number = wave_manager.get_wave_number()

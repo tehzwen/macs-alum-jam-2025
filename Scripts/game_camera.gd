@@ -2,7 +2,7 @@ extends Camera2D
 
 const PLANT_PLACE_SFX = preload("res://Sound/SFX/Gameplay/plant-add-remove.wav")
 
-@export var ZOOM_FACTOR: float = 0.05
+@export var ZOOM_FACTOR: float = 0.1
 @export var MAX_ZOOM_IN: float = 3.0
 @export var MAX_ZOOM_OUT: float = 1.2
 
@@ -29,7 +29,12 @@ func _input(event: InputEvent) -> void:
 			self.manager.set_selected_type(Manager.PLANT_TYPE.FLY_TRAP)
 		elif (event.keycode == KEY_4):
 			self.manager.set_selected_type(Manager.PLANT_TYPE.VINE)
-	
+			
+		if event.keycode == KEY_EQUAL and event.pressed:
+			Globals.set_game_speed(Globals.game_speed + 1)
+		if event.keycode == KEY_MINUS and event.pressed:
+			Globals.set_game_speed(Globals.game_speed - 1)
+			
 	if (event is InputEventMouseButton):
 		if (event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
 			# get the parent, then call our manager script func to place a plant

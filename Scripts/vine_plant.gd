@@ -12,9 +12,9 @@ func _ready() -> void:
 	attack_sound = get_node("AttackSound")
 
 func initialize():
-	super.initialize()
 	self.attack_cooldown = 1.0
 	self.attack_duration = 3
+	super.initialize()
 	print("im a vine plant!")
 	$AnimatedSprite2D.play("default")
 	

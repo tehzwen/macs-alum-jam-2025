@@ -14,12 +14,12 @@ func _ready():
 	flytrap_attack_sound = get_node("AttackSound")
 
 func initialize():
-	super.initialize()
 	self.attack_cooldown = 0.5
 	self.total_hp = 500
 	self.grid_height = 2
 	self.grid_width = 2
 	self.attack_duration = 0.1
+	super.initialize()
 	print("im a fly trap plant!")
 	$AnimatedSprite2D.play("default")
 

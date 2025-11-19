@@ -4,11 +4,10 @@ class_name Ant
 
 var attack_audio_stream: AudioStreamPlayer2D
 
-
 func initialize(id: String) -> void:
-	super.initialize(id)
 	self.damage = 0.1
 	self.move_speed = 1
+	super.initialize(id)
 	
 func _ready() -> void:
 	attack_audio_stream = get_node("AttackSound")

@@ -5,8 +5,8 @@ class_name TomatoPlant
 const tomato_projectile_scene: PackedScene = preload("res://Scenes/tomato.tscn")
 
 func initialize():
-	super.initialize()
 	self.attack_cooldown = 1.5
+	super.initialize()
 	print("im a tomato plant!")
 	$AnimatedSprite2D.play("default")
 
