@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckojlgjelib5x"]
+[gd_scene load_steps=10 format=3 uid="uid://ckojlgjelib5x"]
 
 [ext_resource type="Script" uid="uid://dk5on1k7ul5al" path="res://Scripts/game_camera.gd" id="1_374bx"]
 [ext_resource type="PackedScene" uid="uid://bpamdhgkpv4fp" path="res://Scenes/debug-ui.tscn" id="3_374bx"]
 [ext_resource type="Script" uid="uid://c2nt86875xx6l" path="res://Scripts/manager.gd" id="3_ljg3k"]
 [ext_resource type="AudioStream" uid="uid://b8rkdy6blj5k6" path="res://Sound/Music/regular_wave_loop.ogg" id="4_jxk2s"]
+[ext_resource type="Script" uid="uid://dvt2mp5udb30k" path="res://Scripts/ui_counter.gd" id="5_2cyux"]
+[ext_resource type="Texture2D" uid="uid://ctb3ksoo0o6yx" path="res://Resources/UI Icons/gold.png" id="5_jopwi"]
+[ext_resource type="Texture2D" uid="uid://c5syl4qjuo2n7" path="res://Resources/UI Icons/seeds.png" id="6_2cyux"]
+[ext_resource type="Texture2D" uid="uid://b8c6002jlorj6" path="res://Resources/UI Icons/placeholder.png" id="8_gns3n"]
+[ext_resource type="Script" uid="uid://c1airxoxqrs0w" path="res://Scenes/time_controller.gd" id="9_u6q4l"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -23,3 +28,98 @@ stream = ExtResource("4_jxk2s")
 autoplay = true
 
 [node name="UISound" type="AudioStreamPlayer" parent="."]
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_2cyux")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UserInterface"]
+
+[node name="LabelPanel" type="Panel" parent="UserInterface/CanvasLayer"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 134.0
+offset_bottom = 198.0
+
+[node name="GridContainer" type="GridContainer" parent="UserInterface/CanvasLayer/LabelPanel"]
+layout_mode = 0
+offset_right = 108.0
+offset_bottom = 110.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="CashTexture" type="TextureRect" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+texture = ExtResource("5_jopwi")
+
+[node name="CashLabel" type="Label" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="SeedsTexture" type="TextureRect" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+texture = ExtResource("6_2cyux")
+
+[node name="SeedsLabel" type="Label" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="KillsTexture" type="TextureRect" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+texture = ExtResource("8_gns3n")
+expand_mode = 2
+
+[node name="KillsLabel" type="Label" parent="UserInterface/CanvasLayer/LabelPanel/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+
+[node name="TimerPanel" type="Panel" parent="UserInterface/CanvasLayer"]
+offset_left = 384.0
+offset_top = 20.0
+offset_right = 768.0
+offset_bottom = 60.0
+
+[node name="GridContainer" type="GridContainer" parent="UserInterface/CanvasLayer/TimerPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.5
+offset_right = 61.5
+offset_bottom = 33.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 40
+columns = 4
+
+[node name="WaveTexture" type="TextureRect" parent="UserInterface/CanvasLayer/TimerPanel/GridContainer"]
+layout_mode = 2
+texture = ExtResource("8_gns3n")
+expand_mode = 2
+
+[node name="WaveLabel" type="Label" parent="UserInterface/CanvasLayer/TimerPanel/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "1"
+
+[node name="NextWaveTexture" type="TextureRect" parent="UserInterface/CanvasLayer/TimerPanel/GridContainer"]
+layout_mode = 2
+texture = ExtResource("8_gns3n")
+expand_mode = 2
+
+[node name="NextWaveLabel" type="Label" parent="UserInterface/CanvasLayer/TimerPanel/GridContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "0:00"
+
+[node name="TimeController" type="Node2D" parent="."]
+script = ExtResource("9_u6q4l")

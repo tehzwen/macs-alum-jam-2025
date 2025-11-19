@@ -17,4 +17,5 @@ config/icon="res://Resources/icon.svg"
 
 [autoload]
 
+GameSignals="*res://Scripts/GameSignals.gd"
 Globals="*res://Scripts/globals.gd"
