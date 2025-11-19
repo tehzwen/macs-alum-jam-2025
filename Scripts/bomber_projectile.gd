@@ -3,7 +3,7 @@ extends Node2D
 class_name BomberProjectile
 
 @export var speed: float = 3.0
-@export var damage: float = 25
+@export var damage: float = 5
 @export var max_distance: float = 250
 
 var projectile_explosion_sound: AudioStreamPlayer2D
