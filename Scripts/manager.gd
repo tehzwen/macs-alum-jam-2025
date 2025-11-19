@@ -15,8 +15,8 @@ var manager: Manager
 
 @export var col_height: float = 32
 @export var row_width: float = 32
-@export var num_cols: int = 10
-@export var num_rows: int = 10
+@export var num_cols: int = 50
+@export var num_rows: int = 30
 
 var game_grid: Array[Array] = []
 var active_bugs = []
@@ -61,7 +61,18 @@ func get_round() -> int:
 	return self.wave_manager.current_wave_num
 
 func get_remaining() -> int:
-	return self.wave_manager.get_remaining() + self.wave_manager.get_active_enemy_count()
+	if self.wave_manager.get_remaining() > 0:
+		return self.wave_manager.get_remaining()
+	return 0
+	
+func get_grid_center_world_coords() -> Vector2:
+	var row_center = (self.num_rows/2) * self.row_width
+	var col_center = (self.num_cols/2) * self.col_height
+	
+	return Vector2(col_center, row_center)
+
+func get_grid_world_rect() -> Rect2:
+	return Rect2(0,0, self.num_cols * self.col_height, self.num_rows * self.row_width)
 
 # helper to get the nearest grid col & row based off a set of world coordinates 
 func get_grid_from_world_vec(world: Vector2) -> Vector2:
@@ -162,7 +173,6 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 
 func _ready():
 	self.wave_manager.initialize()
-	
 	music_stream = self.get_node("../Music")
 	
 	# generate our game grid structure
@@ -208,7 +218,7 @@ func _ready():
 	#add_plant(PLANT_TYPE.VINE, 4,4)
 
 func _process(delta: float) -> void:
-	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
+	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() >= 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
 		var type = BUG_TYPE.BOMBER

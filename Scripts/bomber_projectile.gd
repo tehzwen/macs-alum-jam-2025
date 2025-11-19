@@ -3,7 +3,7 @@ extends Node2D
 class_name BomberProjectile
 
 @export var speed: float = 3.0
-@export var damage: float = 25
+@export var damage: float = 5
 @export var max_distance: float = 250
 
 var projectile_explosion_sound: AudioStreamPlayer2D
@@ -20,11 +20,14 @@ func _process(delta: float) -> void:
 	self.distance_travelled += self.speed
 	
 	if (self.distance_travelled > self.max_distance):
-		queue_free()
+		projectile_explosion_sound.play()
 
 func _on_area_2d_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	var plant_script: Plant = area.get_parent()
 	plant_script.take_damage(self.damage)
+	self.hide()
+	self.speed = 0
 	projectile_explosion_sound.play()
-	print("played projectile explosion")
+
+func _on_explosion_sound_finished() -> void:
 	queue_free()

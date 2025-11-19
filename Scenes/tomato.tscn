@@ -38,3 +38,4 @@ stream = ExtResource("3_h05cf")
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
 [connection signal="area_shape_entered" from="AoeArea" to="." method="_on_aoe_area_area_shape_entered"]
 [connection signal="area_shape_exited" from="AoeArea" to="." method="_on_aoe_area_area_shape_exited"]
+[connection signal="finished" from="TomatoSplashSound" to="." method="_on_tomato_splash_sound_finished"]

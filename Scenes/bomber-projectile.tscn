@@ -28,3 +28,4 @@ shape = SubResource("CircleShape2D_hbhpg")
 stream = ExtResource("3_bvpjg")
 
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="finished" from="ExplosionSound" to="." method="_on_explosion_sound_finished"]

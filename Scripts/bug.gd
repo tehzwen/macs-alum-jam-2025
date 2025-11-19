@@ -21,11 +21,16 @@ func initialize(id: String) -> void:
 	self.original_move_speed = self.move_speed
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
-	sprite.play("default")
+	self.set_animation("default")
 
 func get_id():
 	return self.id
-
+	
+func set_animation(animation: String):
+	if sprite.animation == animation:
+		return
+	sprite.play(animation)
+		
 func set_target(target: Node2D):
 	self.target = target
 	
@@ -75,5 +80,5 @@ func _process(delta: float) -> void:
 					if (bug_script.target != null):
 						self.set_target(bug_script.target)
 		else:
-			# we need to give them some help
+			# TODO we need to give them some help
 			pass
