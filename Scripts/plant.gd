@@ -10,15 +10,27 @@ var range: float = 250.0
 var current_target: Node2D = null
 var attack_cooldown: float
 var attack_timer = 0.0
+var original_attack_cooldown 
 var attack_audio_stream: AudioStreamPlayer2D
 var attack_duration = 1.0
+var original_attack_duration
 var attack_duration_timer = 0.0
 var grid_position: Vector2
 var is_attacking: bool = false
 var seen_nodes = {}
 
+func apply_globals(game_speed: float):
+	self.attack_duration = self.original_attack_duration / game_speed
+	self.attack_cooldown = self.original_attack_cooldown / game_speed
+
+func _on_global_game_speed_change(speed: float):
+	self.apply_globals(speed)
+
 func initialize():
 	print("im a plant!")
+	self.original_attack_cooldown = self.attack_cooldown
+	self.original_attack_duration = self.attack_duration
+	Globals.game_speed_change.connect(self._on_global_game_speed_change)
 
 func attack():
 	return

@@ -10,9 +10,9 @@ func _ready() -> void:
 	pea_attack_sound = get_node("AttackSound")
 
 func initialize():
-	super.initialize()
 	self.attack_cooldown = 0.25
 	self.attack_duration = 0.1
+	super.initialize()
 	$AnimatedSprite2D.play("default")
 
 func attack():
@@ -27,7 +27,6 @@ func attack():
 	var pea_script: Pea = projectile
 	pea_script.direction = direction
 	add_child(projectile)
-
 
 func _on_vision_area_shape_entered(area_rid: RID, area: Area2D, area_shape_index: int, local_shape_index: int) -> void:
 	self.seen_nodes[area_rid.get_id()] = area.get_parent()

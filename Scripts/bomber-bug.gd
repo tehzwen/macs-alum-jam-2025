@@ -28,9 +28,9 @@ func attack():
 	projectile_script.direction = direction
 	
 func initialize(id: String) -> void:
-	super.initialize(id)
 	self.damage = 10
 	self.attack_cooldown = 1.0
+	super.initialize(id)
 	
 func move_to_target():
 	super.move_to_target()
