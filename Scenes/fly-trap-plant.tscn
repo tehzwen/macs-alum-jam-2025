@@ -23,10 +23,6 @@ collision_layer = 2
 position = Vector2(3.8146973e-06, 1.5000076)
 shape = SubResource("RectangleShape2D_v50tt")
 
-[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
-position = Vector2(14, 12)
-stream = ExtResource("1_rm2rg")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(14, 12)
 sprite_frames = ExtResource("3_okm1t")
