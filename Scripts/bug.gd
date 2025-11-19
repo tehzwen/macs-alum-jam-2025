@@ -10,22 +10,40 @@ var target: Node2D
 var move_speed: float = 0.5
 var original_move_speed: float
 var attack_cooldown = 0.5
+var original_attack_cooldown 
 var attack_timer = 0.0
 var reached_target: Node2D
 var sprite: AnimatedSprite2D
 var seen_nodes = {}
 
+func apply_globals(game_speed: float):
+	self.attack_cooldown = self.original_attack_cooldown / game_speed
+	self.move_speed = self.original_move_speed * game_speed
+
+func _on_global_game_speed_change(speed: float):
+	self.apply_globals(speed)
+
 func initialize(id: String) -> void:
+	Globals.game_speed_change.connect(self._on_global_game_speed_change)
 	self.max_hp = self.total_hp
 	self.id = id
 	self.original_move_speed = self.move_speed
+	self.original_attack_cooldown = self.attack_cooldown
+	
+	# apply globals
+	self.apply_globals(Globals.game_speed)
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
-	sprite.play("default")
+	self.set_animation("default")
 
 func get_id():
 	return self.id
-
+	
+func set_animation(animation: String):
+	if sprite.animation == animation:
+		return
+	sprite.play(animation)
+		
 func set_target(target: Node2D):
 	self.target = target
 	
@@ -76,5 +94,5 @@ func _process(delta: float) -> void:
 					if (bug_script.target != null):
 						self.set_target(bug_script.target)
 		else:
-			# we need to give them some help
+			# TODO we need to give them some help
 			pass

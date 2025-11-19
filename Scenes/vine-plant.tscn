@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://da6j3epbwr7ut"]
+[gd_scene load_steps=8 format=3 uid="uid://da6j3epbwr7ut"]
 
 [ext_resource type="Script" uid="uid://bvsyylhon7cmv" path="res://Scripts/vine_plant.gd" id="1_d1cb5"]
 [ext_resource type="AudioStream" uid="uid://c61escs0p8lch" path="res://Sound/SFX/Gameplay/heavy_sound.wav" id="1_r40fw"]
 [ext_resource type="SpriteFrames" uid="uid://cm3djmvqyjw23" path="res://Resources/vine-plant-frames.tres" id="2_7dup2"]
+[ext_resource type="AudioStream" uid="uid://ba38u5fqfo845" path="res://Sound/SFX/Gameplay/vine_death.wav" id="4_mudhp"]
+[ext_resource type="AudioStream" uid="uid://d158ycgvtbudx" path="res://Sound/SFX/Gameplay/vine_attack.wav" id="5_r0of4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7dup2"]
 size = Vector2(32, 32)
@@ -33,6 +35,12 @@ collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_d1cb5")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_mudhp")
+
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_r0of4")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

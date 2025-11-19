@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cymchg65bjlg6"]
+[gd_scene load_steps=5 format=3 uid="uid://cymchg65bjlg6"]
 
 [ext_resource type="SpriteFrames" uid="uid://4xe8rpwrbv6w" path="res://Resources/bomber-projectile-frames.tres" id="1_bdn40"]
 [ext_resource type="Script" uid="uid://csacfkvav60kw" path="res://Scripts/bomber_projectile.gd" id="1_hbhpg"]
+[ext_resource type="AudioStream" uid="uid://b3f4076sdcjy2" path="res://Sound/SFX/Gameplay/bomber_projectile_explosion.wav" id="3_bvpjg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hbhpg"]
 radius = 16.03122
@@ -23,4 +24,8 @@ collision_mask = 2
 position = Vector2(-3, -4)
 shape = SubResource("CircleShape2D_hbhpg")
 
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bvpjg")
+
 [connection signal="area_shape_entered" from="Area2D" to="." method="_on_area_2d_area_shape_entered"]
+[connection signal="finished" from="ExplosionSound" to="." method="_on_explosion_sound_finished"]

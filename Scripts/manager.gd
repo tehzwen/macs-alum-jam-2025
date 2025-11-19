@@ -9,26 +9,31 @@ const pea_plant_scene: PackedScene = preload("res://Scenes/pea-plant.tscn")
 const fly_trap_plant_scene: PackedScene = preload("res://Scenes/fly-trap-plant.tscn")
 const vine_plant_scene: PackedScene = preload("res://Scenes/vine-plant.tscn")
 const plantable_tile_scene: PackedScene = preload("res://Scenes/plantable-tile.tscn")
+const ant_hill_scene: PackedScene = preload("res://Scenes/ant-hill.tscn")
 
 var music_stream: AudioStreamPlayer
 var manager: Manager
 
 @export var col_height: float = 32
 @export var row_width: float = 32
-@export var num_cols: int = 10
-@export var num_rows: int = 10
+@export var num_cols: int = 50
+@export var num_rows: int = 30
 
 var game_grid: Array[Array] = []
 var active_bugs = []
 var active_plants = []
+var active_anthills = []
 var num_current_bugs = 0
 var num_current_plants = 0
+var num_ant_hills = 0
 var current_round: int = 1
 var wave_amount: int = 20
 var kills: int = 0
 var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
 var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
+var time_scale = 1.0
+
 
 enum BUG_TYPE {
 	ANT,
@@ -61,7 +66,18 @@ func get_round() -> int:
 	return self.wave_manager.current_wave_num
 
 func get_remaining() -> int:
-	return self.wave_manager.get_remaining() + self.wave_manager.get_active_enemy_count()
+	if self.wave_manager.get_remaining() > 0:
+		return self.wave_manager.get_remaining()
+	return 0
+	
+func get_grid_center_world_coords() -> Vector2:
+	var row_center = (self.num_rows/2) * self.row_width
+	var col_center = (self.num_cols/2) * self.col_height
+	
+	return Vector2(col_center, row_center)
+
+func get_grid_world_rect() -> Rect2:
+	return Rect2(0,0, self.num_cols * self.col_height, self.num_rows * self.row_width)
 
 # helper to get the nearest grid col & row based off a set of world coordinates 
 func get_grid_from_world_vec(world: Vector2) -> Vector2:
@@ -134,6 +150,24 @@ func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 
 func desired_enemies() -> int:
 	return current_round * wave_amount
+	
+func spawn_ant_hill(row, col):
+	# find an empty spot in the grid
+	#var col = rng.randi_range(0, self.num_cols)
+	#var row = rng.randi_range(0, self.num_rows)
+	
+	var hill_node: Node2D = ant_hill_scene.instantiate()
+	var hill_script: AntHill = hill_node
+	
+	#while not self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
+		#col = rng.randi_range(0, self.num_cols)
+		#row = rng.randi_range(0, self.num_rows)
+		
+	if self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
+		hill_node.position = Vector2(row * self.col_height, col * self.row_width)
+		num_ant_hills += 1
+		add_child(hill_node)
+		hill_script.on_ant_hill_spawn.connect(_on_ant_hill_spawn)
 
 func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 	var plant_node: Node2D
@@ -160,9 +194,11 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		add_child(plant_node)
 		num_current_plants += 1
 
+func _on_ant_hill_spawn():
+	print("anthill spawn")
+
 func _ready():
 	self.wave_manager.initialize()
-	
 	music_stream = self.get_node("../Music")
 	
 	# generate our game grid structure
@@ -203,12 +239,12 @@ func _ready():
 				
 		self.game_grid.push_back(column)
 	
-	add_plant(PLANT_TYPE.FLY_TRAP, 4, 4)
+	add_plant(PLANT_TYPE.TOMATO, num_cols/2, num_rows/2)
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
 	#add_plant(PLANT_TYPE.VINE, 4,4)
 
 func _process(delta: float) -> void:
-	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() > 0:
+	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() >= 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
 		var type = BUG_TYPE.BOMBER
@@ -224,6 +260,7 @@ func _process(delta: float) -> void:
 		self.wave_manager.waiting = true
 		await get_tree().create_timer(3.0).timeout
 		self.wave_manager.next_wave()
+		#spawn_ant_hill()
 	
 	# handle plant death
 	for i in range(len(self.active_plants)):
@@ -255,6 +292,7 @@ func _process(delta: float) -> void:
 			bug_script.die()
 			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
+			self.kills += 1
 			continue
 
 	var wave_number = wave_manager.get_wave_number()

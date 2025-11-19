@@ -13,8 +13,10 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(1.2, 1.2)
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 script = ExtResource("1_374bx")
-ZOOM_FACTOR = 0.05
 
 [node name="Spawner" type="Node2D" parent="."]
 script = ExtResource("3_ljg3k")

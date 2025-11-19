@@ -2,12 +2,19 @@ extends Plant
 
 const vine_projectile_scene: PackedScene = preload("res://Scenes/vine-projectile.tscn")
 
+var death_sound: AudioStreamPlayer2D
+var attack_sound: AudioStreamPlayer2D
+
 var instantiated_vines = []
 
+func _ready() -> void:
+	death_sound = get_node("DeathSound")
+	attack_sound = get_node("AttackSound")
+
 func initialize():
-	super.initialize()
 	self.attack_cooldown = 1.0
 	self.attack_duration = 3
+	super.initialize()
 	print("im a vine plant!")
 	$AnimatedSprite2D.play("default")
 	
@@ -17,6 +24,7 @@ func die():
 		if (is_instance_valid(vine)):
 			vine.queue_free()
 
+	death_sound.play()
 	super.die()
 	
 func stop_attack():
@@ -37,6 +45,7 @@ func stop_attack():
 
 func attack():
 	super.attack()
+	attack_sound.play()
 	if (self.current_target == null):
 		return
 	

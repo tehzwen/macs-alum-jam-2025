@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://diesxi316qmor"]
+[gd_scene load_steps=7 format=3 uid="uid://diesxi316qmor"]
 
 [ext_resource type="Script" uid="uid://blh2xpfhfkj2t" path="res://Scripts/pea-plant.gd" id="1_mfy48"]
 [ext_resource type="AudioStream" uid="uid://cgh22lsw626o" path="res://Sound/SFX/Gameplay/pew.wav" id="3_6jun7"]
 [ext_resource type="SpriteFrames" uid="uid://dew7nchqv271p" path="res://Resources/pea-plant-frames.tres" id="4_5c7k7"]
+[ext_resource type="AudioStream" uid="uid://d28ndwpa3wgxj" path="res://Sound/SFX/Gameplay/extra_death.wav" id="4_laslu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqfcn"]
 size = Vector2(32, 32)
@@ -19,7 +20,7 @@ collision_layer = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_fqfcn")
 
-[node name="AudioStream" type="AudioStreamPlayer2D" parent="."]
+[node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_6jun7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -32,6 +33,9 @@ collision_layer = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
 shape = SubResource("CircleShape2D_6jun7")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_laslu")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]
