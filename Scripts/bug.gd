@@ -10,8 +10,9 @@ var target: Node2D
 var move_speed: float = 0.5
 var original_move_speed: float
 var attack_cooldown = 0.5
-var original_attack_cooldown 
+var original_attack_cooldown
 var attack_timer = 0.0
+var stun_timer = 0.0
 var reached_target: Node2D
 var sprite: AnimatedSprite2D
 var seen_nodes = {}
@@ -71,7 +72,15 @@ func die():
 	GameSignals.update_kill_count(1)
 	queue_free()
 
+func be_stunned(timer: float):
+	self.stun_timer = timer
+
 func _process(delta: float) -> void:
+	# if we are stunned, do nothing other than decrement the stun counter
+	if self.stun_timer > 0.0:
+		self.stun_timer -= delta
+		return
+	
 	if (self.target != null and self.reached_target == null):
 		self.move_to_target()
 	elif (self.reached_target != null):

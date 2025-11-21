@@ -8,7 +8,7 @@
 radius = 8.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h05cf"]
-radius = 138.03261
+radius = 56.0
 
 [node name="Tomato" type="Node2D"]
 script = ExtResource("1_bnlwl")
