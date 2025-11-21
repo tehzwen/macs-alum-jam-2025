@@ -33,15 +33,8 @@ func stop_attack():
 	for i in range(len(self.instantiated_vines)):
 		var vine = self.instantiated_vines[i]
 		if (is_instance_valid(vine)):
-			var vine_script: VineProjectile = vine
-			# let the bugs walk again
-			for j in range(len(vine_script.aoe_bodies)):
-				var bug = vine_script.aoe_bodies[j]
-				if (is_instance_valid(bug)):
-					var bug_script: Bug = bug
-					bug_script.move_speed = bug_script.original_move_speed
-			vine_script.aoe_bodies = []
 			vine.queue_free()
+	self.instantiated_vines = []
 
 func attack():
 	super.attack()
