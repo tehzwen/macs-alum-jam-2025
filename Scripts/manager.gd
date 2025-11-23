@@ -28,7 +28,6 @@ var num_current_plants = 0
 var num_ant_hills = 0
 var current_round: int = 1
 var wave_amount: int = 20
-var kills: int = 0
 var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
 var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
@@ -55,9 +54,6 @@ func get_selected_type() -> PLANT_TYPE:
 func set_selected_type(type: PLANT_TYPE):
 	self.selected_type = type
 
-func get_kills() -> int:
-	return self.kills
-	
 func get_num_plants() -> int:
 	return self.active_plants.size()
 	
@@ -124,6 +120,8 @@ func place_in_grid(id: String, coords: Vector2, dimensions: Vector2) -> bool:
 func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 	var spawn_point = rng.randi_range(0, len(self.spawn_points) -1)
 	var destination: Vector2 = self.spawn_points[spawn_point]
+	destination.x += rng.randf_range(0, self.col_height * 3)
+	destination.y += rng.randf_range(0, self.row_width * 3)
 	
 	if (type == BUG_TYPE.BOMBER):
 		var inst = bomber_scene.instantiate()
@@ -178,6 +176,9 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		plant_script.grid_position = Vector2(col, row)
 		add_child(plant_node)
 		num_current_plants += 1
+
+func spend_coin(amount: int):
+	self.coins -= amount
 
 func _on_ant_hill_spawn():
 	pass
@@ -323,7 +324,6 @@ func _process(_delta: float) -> void:
 			bug_script.die()
 			self.wave_manager.increment_killed()
 			num_current_bugs -= 1
-			self.kills += 1
 			continue
 
 	var wave_number = wave_manager.get_wave_number()

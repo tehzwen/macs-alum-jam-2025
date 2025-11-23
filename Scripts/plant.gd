@@ -5,7 +5,8 @@ class_name Plant
 @export var grid_width = 1
 @export var grid_height = 1
 
-var total_hp: int = 100
+var total_hp: float = 100
+var max_hp: float
 var range: float = 250.0
 var current_target: Node2D = null
 var attack_cooldown: float
@@ -30,15 +31,16 @@ func initialize():
 	print("im a plant!")
 	self.original_attack_cooldown = self.attack_cooldown
 	self.original_attack_duration = self.attack_duration
+	self.max_hp = self.total_hp
 	Globals.game_speed_change.connect(self._on_global_game_speed_change)
 
 func attack():
 	return
 
 func take_damage(damage: float):
+	$HealthBar.set_instance_shader_parameter("health_percentage", self.total_hp/self.max_hp)
 	if (self.total_hp > 0):
 		self.total_hp -= damage
-	#print("I have %d hp left" % self.total_hp)
 	
 func set_target(target: Node2D):
 	if (target != null):

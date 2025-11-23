@@ -6,7 +6,7 @@ var direction: Vector2
 var speed: float
 var original_speed: float
 var distance_travelled: float
-var max_distance: float
+var max_distance: float = 1000
 var damage: float
 
 func apply_globals(game_speed: float):
@@ -19,7 +19,6 @@ func on_max_distance_reached():
 	queue_free()
 
 func initialize():
-	self.max_distance = 1000
 	self.distance_travelled = 0
 	self.original_speed = self.speed
 	Globals.game_speed_change.connect(self._on_global_game_speed_change)

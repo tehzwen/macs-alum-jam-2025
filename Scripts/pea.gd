@@ -3,8 +3,8 @@ extends DirectionalProjectile
 class_name Pea
 
 func _ready() -> void:
-	self.speed = 3.0
-	self.damage = 25
+	self.speed = 2.5
+	self.damage = 10
 	self.max_distance = 1000
 	super.initialize()
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bor67blktj4m5"]
+[gd_scene load_steps=9 format=3 uid="uid://bor67blktj4m5"]
 
 [ext_resource type="Script" uid="uid://8qs2bsjwojx8" path="res://Scripts/tomato-plant.gd" id="1_7gy0g"]
 [ext_resource type="AudioStream" uid="uid://cuu5iadqs8mo4" path="res://Sound/SFX/Gameplay/plant-add-remove.wav" id="2_as3ei"]
+[ext_resource type="Shader" uid="uid://cpoch74hrxjl3" path="res://Shaders/plant-health-bar.gdshader" id="4_hal7s"]
 [ext_resource type="SpriteFrames" uid="uid://dxl3fy3ixxvhe" path="res://Resources/tomato-plant-frames.tres" id="4_wp7j5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xewkx"]
@@ -9,6 +10,11 @@ size = Vector2(32, 32)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_as3ei"]
 radius = 392.08163
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1a437"]
+shader = ExtResource("4_hal7s")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_as3ei"]
 
 [node name="TomatoPlant" type="Node2D"]
 script = ExtResource("1_7gy0g")
@@ -34,6 +40,13 @@ collision_layer = 256
 shape = SubResource("CircleShape2D_as3ei")
 
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
+
+[node name="HealthBar" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_1a437")
+instance_shader_parameters/health_percentage = 1.0
+position = Vector2(0, 17)
+scale = Vector2(30, 4.249998)
+texture = SubResource("CanvasTexture_as3ei")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]

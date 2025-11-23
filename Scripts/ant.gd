@@ -5,8 +5,10 @@ class_name Ant
 var attack_audio_stream: AudioStreamPlayer2D
 
 func initialize(id: String) -> void:
-	self.damage = 0.1
+	self.coin_worth = 2
+	self.damage = 2.0
 	self.move_speed = 1
+	self.total_hp = 50
 	super.initialize(id)
 	
 func _ready() -> void:

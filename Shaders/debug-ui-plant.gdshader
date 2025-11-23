@@ -1,12 +1,12 @@
 shader_type canvas_item;
 
-instance uniform bool isSelected;
+instance uniform bool canAfford;
 
 void fragment() {
 	vec4 texColor = texture(TEXTURE, UV);
-	if (isSelected == true) {
-		COLOR = vec4((cos(TIME * 4.0) + 1.5), 0.0, 0.0, texColor.w);
+	if (canAfford == true) {
+		COLOR = texColor;
 	} else {
-		COLOR = vec4(1.0, 1.0, 1.0, texColor.w);
+		COLOR = vec4(texColor.g, texColor.g, texColor.g, texColor.w);
 	}
 }

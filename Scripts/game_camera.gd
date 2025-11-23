@@ -37,10 +37,14 @@ func _input(event: InputEvent) -> void:
 			
 	if (event is InputEventMouseButton):
 		if (event.button_index == MOUSE_BUTTON_LEFT and event.pressed):
+			# can they even afford this
+			if Globals.get_plant_cost(self.manager.get_selected_type()) > Globals.get_cash():
+				return
+			
 			# get the parent, then call our manager script func to place a plant
 			var grid_coords = manager.get_grid_from_world_vec(get_global_mouse_position())
+			GameSignals.update_cash(-Globals.get_plant_cost(self.manager.get_selected_type()))
 			manager.add_plant(self.manager.get_selected_type(), grid_coords.x, grid_coords.y)
-			#manager.spawn_ant_hill(grid_coords) # test placing ant hills
 			ui_audio.stream = PLANT_PLACE_SFX
 			ui_audio.play()
 		#elif (event.button_index == MOUSE_BUTTON_RIGHT):

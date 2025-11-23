@@ -1,10 +1,11 @@
 extends Plant
 
+class_name VinePlant
+
 const vine_projectile_scene: PackedScene = preload("res://Scenes/vine-projectile.tscn")
 
 var death_sound: AudioStreamPlayer2D
 var attack_sound: AudioStreamPlayer2D
-
 var instantiated_vines = []
 
 func _ready() -> void:

@@ -16,6 +16,10 @@ var stun_timer = 0.0
 var reached_target: Node2D
 var sprite: AnimatedSprite2D
 var seen_nodes = {}
+var coin_worth = 0
+
+func get_coin_worth() -> int:
+	return self.coin_worth
 
 func apply_globals(game_speed: float):
 	self.attack_cooldown = self.original_attack_cooldown / game_speed
@@ -70,6 +74,7 @@ func move_to_target():
 	
 func die():
 	GameSignals.update_kill_count(1)
+	GameSignals.update_cash(self.coin_worth)
 	queue_free()
 
 func be_stunned(timer: float):
