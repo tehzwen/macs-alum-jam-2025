@@ -33,6 +33,8 @@ var rng = RandomNumberGenerator.new()
 var wave_manager = WaveManager.new()
 var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
 var time_scale = 1.0
+var spawn_points: Array[Vector2] = []
+var ant_hill_chance = 25
 
 
 enum BUG_TYPE {
@@ -120,20 +122,8 @@ func place_in_grid(id: String, coords: Vector2, dimensions: Vector2) -> bool:
 	return false
 
 func new_bug(id: String, type: BUG_TYPE) -> Node2D:
-	# now pick one of the 4 random quadrants around the center of the player's base (for now just the origin)
-	# todo - get number of plants which helps us determine what is "safely away" from the base
-	var safe_base = 200.0
-	var quadrant = rng.randi_range(0, 3)
-	var destination: Vector2
-	match quadrant:
-		0:
-			destination = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(safe_base, safe_base * 2))
-		1:
-			destination = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(safe_base, safe_base * 2))
-		2:
-			destination = Vector2(rng.randf_range(-safe_base, -(safe_base * 2)), rng.randf_range(-safe_base, -(safe_base * 2)))
-		3: 
-			destination = Vector2(rng.randf_range(safe_base, safe_base * 2), rng.randf_range(-safe_base, -(safe_base * 2)))
+	var spawn_point = rng.randi_range(0, len(self.spawn_points) -1)
+	var destination: Vector2 = self.spawn_points[spawn_point]
 	
 	if (type == BUG_TYPE.BOMBER):
 		var inst = bomber_scene.instantiate()
@@ -151,20 +141,15 @@ func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 func desired_enemies() -> int:
 	return current_round * wave_amount
 	
-func spawn_ant_hill(row, col):
-	# find an empty spot in the grid
-	#var col = rng.randi_range(0, self.num_cols)
-	#var row = rng.randi_range(0, self.num_rows)
-	
+func spawn_ant_hill(coords: Vector2):
 	var hill_node: Node2D = ant_hill_scene.instantiate()
 	var hill_script: AntHill = hill_node
 	
-	#while not self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
-		#col = rng.randi_range(0, self.num_cols)
-		#row = rng.randi_range(0, self.num_rows)
-		
-	if self.place_in_grid(str(len(self.active_anthills)), Vector2(col, row), Vector2(1,1)):
-		hill_node.position = Vector2(row * self.col_height, col * self.row_width)
+	if self.place_in_grid(str(len(self.active_anthills)), coords, Vector2(1,1)):
+		hill_node.position = Vector2(coords.x * self.col_height, coords.y * self.row_width)
+		self.spawn_points.push_back(hill_node.position)
+		self.wave_manager.num_ant_hills += 1
+		self.active_anthills.push_back(hill_node)
 		num_ant_hills += 1
 		add_child(hill_node)
 		hill_script.on_ant_hill_spawn.connect(_on_ant_hill_spawn)
@@ -195,11 +180,13 @@ func add_plant(plant_type: PLANT_TYPE, col: int, row:int):
 		num_current_plants += 1
 
 func _on_ant_hill_spawn():
-	print("anthill spawn")
+	pass
 
 func _ready():
 	self.wave_manager.initialize()
 	music_stream = self.get_node("../Music")
+	
+	generate_bug_spawn_points()
 	
 	# generate our game grid structure
 	for i in range(self.num_cols):
@@ -243,7 +230,53 @@ func _ready():
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
 	#add_plant(PLANT_TYPE.VINE, 4,4)
 
-func _process(delta: float) -> void:
+# helper to generate spawning points around the outside of the map
+func generate_bug_spawn_points():
+	var top_row = Vector2(0, rng.randi_range(0, num_rows-1))
+	var bottom_row = Vector2(num_cols-1, rng.randi_range(0, num_rows-1))
+	var left_col = Vector2(rng.randi_range(0, num_cols-1), 0)
+	var right_col = Vector2(rng.randi_range(0, num_cols-1), num_rows-1)
+
+	self.spawn_points.push_back(Vector2(top_row.x * self.col_height, top_row.y * self.row_width))
+	self.spawn_points.push_back(Vector2(bottom_row.x * self.col_height, bottom_row.y * self.row_width))
+	self.spawn_points.push_back(Vector2(left_col.x * self.col_height, left_col.y * self.row_width))
+	self.spawn_points.push_back(Vector2(right_col.x * self.col_height, right_col.y * self.row_width))
+	
+	for ah in self.active_anthills:
+		self.spawn_points.push_back(ah.position)
+	
+func random_free_grid_spot(dimensions: Vector2) -> Vector2:
+	# try incremental pass from random starting spot
+	var col = rng.randi_range(0, self.num_cols)
+	var row = rng.randi_range(0, self.num_rows)
+	
+	for i in range(col, self.num_cols, 1):
+		for j in range(row, self.num_rows, 1):
+			print()
+			if can_place_in_grid(Vector2(i,j), dimensions):
+				return Vector2(i,j)
+				
+	for i in range(self.num_cols, col, -1):
+		for j in range(self.num_rows, row, -1):
+			print()
+			if can_place_in_grid(Vector2(i,j), dimensions):
+				return Vector2(i,j)
+				
+	return Vector2(-1, -1)
+	
+func next_wave():
+	self.spawn_points = []
+	# generate random chance for anthills, the higher the round the more likely
+	var random_hill_spawn = rng.randi_range(0, 100)
+	if random_hill_spawn <= self.ant_hill_chance:
+		var spot = random_free_grid_spot(Vector2(1,1))
+		if spot.x != -1:
+			self.spawn_ant_hill(spot)
+	self.ant_hill_chance += 2 # increase the likelihood of an ant hill for every round that happens
+	self.generate_bug_spawn_points()
+	self.wave_manager.next_wave()
+
+func _process(_delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() >= 0:
 		var bug_id = str(self.num_current_bugs)
 		var rand_bug = randi_range(-1, 1)
@@ -259,9 +292,7 @@ func _process(delta: float) -> void:
 		# todo - run a timer here then spawn the next wave
 		self.wave_manager.waiting = true
 		await get_tree().create_timer(3.0).timeout
-		self.wave_manager.next_wave()
-		#spawn_ant_hill()
-	
+		self.next_wave()
 	# handle plant death
 	for i in range(len(self.active_plants)):
 		if (i >= len(self.active_plants)):

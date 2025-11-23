@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c1pr2vsqmwfmq"]
 
 [ext_resource type="SpriteFrames" uid="uid://crrsqyjewx7ta" path="res://Resources/ant-hill-frames.tres" id="1_d2rkg"]
-[ext_resource type="Script" uid="uid://tbuknjsy3eey" path="res://Scenes/ant_hill.gd" id="1_r1xbu"]
+[ext_resource type="Script" uid="uid://tbuknjsy3eey" path="res://Scripts/ant_hill.gd" id="1_r1xbu"]
 
 [node name="AntHill" type="Node2D"]
 script = ExtResource("1_r1xbu")

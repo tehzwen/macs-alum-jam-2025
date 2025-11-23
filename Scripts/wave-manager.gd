@@ -5,6 +5,7 @@ const WAVE_MULTIPLIER = 20
 
 var current_wave_num = 1
 var current_killed = 0
+var num_ant_hills = 0
 var waiting: bool = false
 var total = 0
 
@@ -20,7 +21,8 @@ func next_wave():
 
 func get_active_enemy_count() -> int:
 	# based on the wave we want a specific amount of enemies active at once
-	return self.current_wave_num * self.WAVE_MULTIPLIER
+	# increase how many come at once for every anthill while the wave total remains the same
+	return (self.current_wave_num * self.WAVE_MULTIPLIER) + (self.num_ant_hills * 1.4)
 	
 func get_wave_number() -> int:
 	return self.current_wave_num
