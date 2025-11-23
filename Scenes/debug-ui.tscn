@@ -1,15 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://bpamdhgkpv4fp"]
 
 [ext_resource type="Script" uid="uid://v01rpncxyy0f" path="res://Scripts/debug_ui.gd" id="1_jhhbj"]
-[ext_resource type="Shader" uid="uid://r4wcccfyfko5" path="res://Shaders/debug-ui-plant.gdshader" id="2_52fps"]
-[ext_resource type="Texture2D" uid="uid://cme7mq16re2ld" path="res://Resources/plants.png" id="2_y3irw"]
-[ext_resource type="Texture2D" uid="uid://cvrbgq1dc8we4" path="res://Resources/FlyTrap.png" id="4_lglsl"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lglsl"]
-shader = ExtResource("2_52fps")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8sqmh"]
-shader = ExtResource("2_52fps")
+[ext_resource type="SpriteFrames" uid="uid://buec8udsh0q2a" path="res://Resources/fly-trap-button-frames.tres" id="5_8sqmh"]
+[ext_resource type="Script" uid="uid://ca0deg44txo1d" path="res://Scripts/plant-button.gd" id="6_7f3p7"]
+[ext_resource type="SpriteFrames" uid="uid://cymfjbp615x7w" path="res://Resources/pea-button-frames.tres" id="6_62e2k"]
+[ext_resource type="SpriteFrames" uid="uid://by6uvnq8qcies" path="res://Resources/tomato-button-frames.tres" id="7_bhi3j"]
+[ext_resource type="SpriteFrames" uid="uid://scv53pjy2gii" path="res://Resources/vine-button-frames.tres" id="8_co3tt"]
 
 [node name="DebugUi" type="Control"]
 layout_mode = 3
@@ -94,43 +90,74 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Game speed:"
 
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="AnimatedPanel" type="Panel" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 584.0
+offset_right = -896.0
+
+[node name="Tomato" type="AnimatedSprite2D" parent="CanvasLayer/AnimatedPanel"]
+position = Vector2(32, 32)
+sprite_frames = ExtResource("7_bhi3j")
+script = ExtResource("6_7f3p7")
+
+[node name="Pea" type="AnimatedSprite2D" parent="CanvasLayer/AnimatedPanel"]
+position = Vector2(96, 32)
+sprite_frames = ExtResource("6_62e2k")
+script = ExtResource("6_7f3p7")
+
+[node name="FlyTrap" type="AnimatedSprite2D" parent="CanvasLayer/AnimatedPanel"]
+position = Vector2(160, 32)
+sprite_frames = ExtResource("5_8sqmh")
+script = ExtResource("6_7f3p7")
+
+[node name="Vine" type="AnimatedSprite2D" parent="CanvasLayer/AnimatedPanel"]
+position = Vector2(224, 32)
+sprite_frames = ExtResource("8_co3tt")
+script = ExtResource("6_7f3p7")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/AnimatedPanel"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 576.0
-offset_right = -896.0
+offset_right = -216.0
+offset_bottom = -24.0
+text = "1"
 
-[node name="Tomato" type="Sprite2D" parent="CanvasLayer/Panel"]
-material = SubResource("ShaderMaterial_lglsl")
-position = Vector2(32, 32)
-scale = Vector2(1.75, 1.75)
-texture = ExtResource("2_y3irw")
-hframes = 4
-vframes = 4
-frame = 10
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/AnimatedPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_right = -152.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "2"
 
-[node name="Pea" type="Sprite2D" parent="CanvasLayer/Panel"]
-material = SubResource("ShaderMaterial_lglsl")
-position = Vector2(88, 32)
-scale = Vector2(1.75, 1.75)
-texture = ExtResource("2_y3irw")
-hframes = 4
-vframes = 4
-frame = 9
+[node name="RichTextLabel3" type="RichTextLabel" parent="CanvasLayer/AnimatedPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 128.0
+offset_right = -88.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "3"
 
-[node name="FlyTrap" type="Sprite2D" parent="CanvasLayer/Panel"]
-material = SubResource("ShaderMaterial_8sqmh")
-instance_shader_parameters/isSelected = false
-position = Vector2(160, 32)
-texture = ExtResource("4_lglsl")
-hframes = 4
-
-[node name="Vine" type="Sprite2D" parent="CanvasLayer/Panel"]
-material = SubResource("ShaderMaterial_lglsl")
-position = Vector2(223.99998, 32)
-scale = Vector2(1.75, 1.75)
-texture = ExtResource("2_y3irw")
-hframes = 4
-vframes = 4
-frame = 11
+[node name="RichTextLabel4" type="RichTextLabel" parent="CanvasLayer/AnimatedPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 192.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "4"

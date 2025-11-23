@@ -24,10 +24,10 @@ func apply_globals(game_speed: float):
 func _on_global_game_speed_change(speed: float):
 	self.apply_globals(speed)
 
-func initialize(id: String) -> void:
+func initialize(new_id: String) -> void:
 	Globals.game_speed_change.connect(self._on_global_game_speed_change)
 	self.max_hp = self.total_hp
-	self.id = id
+	self.id = new_id
 	self.original_move_speed = self.move_speed
 	self.original_attack_cooldown = self.attack_cooldown
 	
@@ -45,12 +45,12 @@ func set_animation(animation: String):
 		return
 	sprite.play(animation)
 		
-func set_target(target: Node2D):
-	self.target = target
+func set_target(t: Node2D):
+	self.target = t
 	
-func take_damage(damage: float):
+func take_damage(d: float):
 	if (self.total_hp > 0):
-		self.total_hp -= damage
+		self.total_hp -= d
 	var health_percentage = self.total_hp / self.max_hp
 	
 	if (sprite != null):
@@ -83,7 +83,11 @@ func _process(delta: float) -> void:
 	
 	if (self.target != null and self.reached_target == null):
 		self.move_to_target()
+		# flip our sprite to face its target
+		$Sprite.flip_h = (self.position.x - self.target.position.x) > 1
+		
 	elif (self.reached_target != null):
+		$Sprite.flip_h = (self.position.x - self.target.position.x) > 1
 		self.attack_timer -= delta
 		if (self.attack_timer <= 0.0):
 			self.attack_timer = self.attack_cooldown
