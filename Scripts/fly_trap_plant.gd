@@ -2,11 +2,8 @@ extends Plant
 
 class_name FlyTrapPlant
 
-
 const fly_trap_projectile_scene: PackedScene = preload("res://Scenes/fly-trap-projectile.tscn")
-
 var flytrap_attack_sound: AudioStreamPlayer2D
-
 var spawned_bite_attack: bool = false
 var bite_attack: FlyTrapProjectile
 

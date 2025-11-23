@@ -28,7 +28,7 @@ func _on_kill_changed(delta_value: int) -> void:
 
 # Adjust label by delta_value
 func _on_cash_changed(delta_value: int) -> void:
-	cash += delta_value
+	cash = Globals.get_cash()
 	cash_label.text = str(cash)
 
 # Adjust label by delta_value

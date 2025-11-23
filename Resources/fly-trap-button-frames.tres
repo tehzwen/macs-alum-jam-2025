@@ -13,7 +13,7 @@ region = Rect2(32, 0, 32, 32)
 [resource]
 animations = [{
 "frames": [{
-"duration": 5.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_pbtie")
 }, {
 "duration": 1.0,

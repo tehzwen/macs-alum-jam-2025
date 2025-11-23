@@ -1,7 +1,7 @@
 
 class_name WaveManager
 
-const WAVE_MULTIPLIER = 20
+const WAVE_MULTIPLIER = 10
 
 var current_wave_num = 1
 var current_killed = 0
@@ -10,6 +10,7 @@ var waiting: bool = false
 var total = 0
 
 func initialize():
+	GameSignals.kill_count_changed.connect(self._on_kill_change)
 	self.total_enemies_for_wave()
 
 func next_wave():
@@ -36,3 +37,6 @@ func increment_killed():
 
 func get_remaining() -> int:
 	return self.total - self.current_killed
+	
+func _on_kill_change(amount: int):
+	self.increment_killed()

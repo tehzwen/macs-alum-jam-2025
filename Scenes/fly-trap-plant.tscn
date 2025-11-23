@@ -1,14 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://obu0sp0mw38s"]
+[gd_scene load_steps=9 format=3 uid="uid://obu0sp0mw38s"]
 
 [ext_resource type="Script" uid="uid://d0oy68xlun7vl" path="res://Scripts/fly_trap_plant.gd" id="1_okm1t"]
 [ext_resource type="AudioStream" uid="uid://7a7xxq5ypbsy" path="res://Sound/SFX/Gameplay/flytrap_attack.wav" id="2_okm1t"]
 [ext_resource type="SpriteFrames" uid="uid://brv5rxerejfm1" path="res://Resources/fly-trap-frames.tres" id="3_okm1t"]
+[ext_resource type="Shader" uid="uid://cpoch74hrxjl3" path="res://Shaders/plant-health-bar.gdshader" id="4_v50tt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v50tt"]
 size = Vector2(58, 65)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_okm1t"]
 radius = 57.271286
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbqiy"]
+shader = ExtResource("4_v50tt")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_5e8j5"]
 
 [node name="FlyTrapPlant" type="Node2D"]
 script = ExtResource("1_okm1t")
@@ -38,6 +44,13 @@ shape = SubResource("CircleShape2D_okm1t")
 
 [node name="AttackSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_okm1t")
+
+[node name="HealthBar" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_sbqiy")
+instance_shader_parameters/health_percentage = 1.5
+position = Vector2(14, 46)
+scale = Vector2(44, 4.249998)
+texture = SubResource("CanvasTexture_5e8j5")
 
 [connection signal="area_shape_entered" from="Vision" to="." method="_on_vision_area_shape_entered"]
 [connection signal="area_shape_exited" from="Vision" to="." method="_on_vision_area_shape_exited"]
