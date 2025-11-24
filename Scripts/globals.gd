@@ -29,6 +29,8 @@ func set_game_speed(speed: float):
 
 func reset():
 	self.game_speed = 1.0
+	self.cash = 0
+	self.kills = 0
 	game_speed_change.emit(self.game_speed)
 
 func get_cash() -> int:

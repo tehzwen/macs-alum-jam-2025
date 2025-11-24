@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://ckojlgjelib5x"]
+[gd_scene load_steps=12 format=3 uid="uid://ckojlgjelib5x"]
 
 [ext_resource type="Script" uid="uid://dk5on1k7ul5al" path="res://Scripts/game_camera.gd" id="1_374bx"]
 [ext_resource type="PackedScene" uid="uid://bpamdhgkpv4fp" path="res://Scenes/debug-ui.tscn" id="3_374bx"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://c5syl4qjuo2n7" path="res://Resources/UI Icons/seeds.png" id="6_2cyux"]
 [ext_resource type="Texture2D" uid="uid://b8c6002jlorj6" path="res://Resources/UI Icons/placeholder.png" id="8_gns3n"]
 [ext_resource type="Script" uid="uid://c1airxoxqrs0w" path="res://Scripts/time_controller.gd" id="9_u6q4l"]
+[ext_resource type="Script" uid="uid://dso7go6on8qfk" path="res://Scenes/game_over_menu.gd" id="10_bt7fg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u6q4l"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -32,8 +35,8 @@ autoplay = true
 [node name="UserInterface" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1154.0
+offset_bottom = 646.0
 script = ExtResource("5_2cyux")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="UserInterface"]
@@ -123,3 +126,62 @@ text = "0:00"
 
 [node name="TimeController" type="Node2D" parent="."]
 script = ExtResource("9_u6q4l")
+
+[node name="GameOverMenu" type="Control" parent="."]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("10_bt7fg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="GameOverMenu"]
+visible = false
+
+[node name="Panel" type="Panel" parent="GameOverMenu/CanvasLayer"]
+offset_left = 416.0
+offset_right = 780.0
+offset_bottom = 648.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu/CanvasLayer"]
+offset_left = 500.0
+offset_top = 216.0
+offset_right = 713.0
+offset_bottom = 432.0
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="GameOverMenu/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Game Over :("
+horizontal_alignment = 1
+
+[node name="MainMenuButton" type="Button" parent="GameOverMenu/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_u6q4l")
+text = "Main Menu"
+
+[node name="RetryButton" type="Button" parent="GameOverMenu/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_u6q4l")
+text = "Retry"
+
+[node name="QuitButton" type="Button" parent="GameOverMenu/CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_u6q4l")
+text = "Quit"
+
+[connection signal="pressed" from="GameOverMenu/CanvasLayer/VBoxContainer/MainMenuButton" to="GameOverMenu" method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="GameOverMenu/CanvasLayer/VBoxContainer/RetryButton" to="GameOverMenu" method="_on_retry_button_pressed"]
+[connection signal="pressed" from="GameOverMenu/CanvasLayer/VBoxContainer/QuitButton" to="GameOverMenu" method="_on_quit_button_pressed"]
