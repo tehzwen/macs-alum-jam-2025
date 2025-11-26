@@ -34,7 +34,7 @@ var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
 var time_scale = 1.0
 var spawn_points: Array[Vector2] = []
 var ant_hill_chance = 25
-
+@onready var game_over_menu = $"../GameOverMenu/CanvasLayer"
 
 enum BUG_TYPE {
 	ANT,
@@ -330,3 +330,10 @@ func _process(_delta: float) -> void:
 	if wave_number > 1:
 		var pitch_scale = 1.0 + (float(wave_manager.get_wave_number())/100.0)
 		music_stream.pitch_scale = min(pitch_scale, 1.7) # 1.7 is ridiculously fast, cap it there
+	
+	# Handle game over
+	if len(self.active_plants) <= 0:
+		get_tree().paused = true
+		game_over_menu.visible = true
+		Globals.reset()
+		
