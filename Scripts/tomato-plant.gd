@@ -6,7 +6,7 @@ const tomato_projectile_scene: PackedScene = preload("res://Scenes/tomato.tscn")
 
 func initialize():
 	self.attack_cooldown = 1
-	self.total_hp = 175
+	self.total_hp = 200
 	super.initialize()
 	print("im a tomato plant!")
 	$AnimatedSprite2D.play("default")

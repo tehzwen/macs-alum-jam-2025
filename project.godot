@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="InfectionJam"
-run/main_scene="res://Scenes/main-scene.tscn"
+run/main_scene="uid://0fxiylnduwyr"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://Resources/icon.svg"
 

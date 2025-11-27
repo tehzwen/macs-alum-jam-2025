@@ -24,6 +24,11 @@ func get_coin_worth() -> int:
 func apply_globals(game_speed: float):
 	self.attack_cooldown = self.original_attack_cooldown / game_speed
 	self.move_speed = self.original_move_speed * game_speed
+	
+	self.damage = self.damage * Globals.difficulty
+	self.move_speed = self.move_speed + absf(1.0 - Globals.difficulty)
+	#print("new move speed: %f" % self.move_speed)
+	#self.coin_worth = self.coin_worth * Globals.difficulty
 
 func _on_global_game_speed_change(speed: float):
 	self.apply_globals(speed)
@@ -40,7 +45,7 @@ func initialize(new_id: String) -> void:
 	sprite = self.get_node("Sprite")
 	sprite.set_instance_shader_parameter("health_percentage", 1.0)
 	self.set_animation("default")
-
+	
 func get_id():
 	return self.id
 	
@@ -92,7 +97,7 @@ func _process(delta: float) -> void:
 		$Sprite.flip_h = (self.position.x - self.target.position.x) > 1
 		
 	elif (self.reached_target != null):
-		$Sprite.flip_h = (self.position.x - self.target.position.x) > 1
+		$Sprite.flip_h = (self.position.x - self.reached_target.position.x) > 1
 		self.attack_timer -= delta
 		if (self.attack_timer <= 0.0):
 			self.attack_timer = self.attack_cooldown

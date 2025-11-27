@@ -25,6 +25,12 @@ func get_active_enemy_count() -> int:
 	# increase how many come at once for every anthill while the wave total remains the same
 	return (self.current_wave_num * self.WAVE_MULTIPLIER) + (self.num_ant_hills * 1.4)
 	
+# helper to calculate the total worth of the incoming bugs for the given round
+func get_wave_worth() -> int:
+	var ant_total = int(self.total_enemies_for_wave() * Globals.ant_chance) * 2
+	var bomb_total = int(self.total_enemies_for_wave() * Globals.bomb_chance) * 4
+	return ant_total + bomb_total
+	
 func get_wave_number() -> int:
 	return self.current_wave_num
 

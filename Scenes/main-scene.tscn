@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c5syl4qjuo2n7" path="res://Resources/UI Icons/seeds.png" id="6_2cyux"]
 [ext_resource type="Texture2D" uid="uid://b8c6002jlorj6" path="res://Resources/UI Icons/placeholder.png" id="8_gns3n"]
 [ext_resource type="Script" uid="uid://c1airxoxqrs0w" path="res://Scripts/time_controller.gd" id="9_u6q4l"]
-[ext_resource type="Script" uid="uid://dso7go6on8qfk" path="res://Scenes/game_over_menu.gd" id="10_bt7fg"]
+[ext_resource type="Script" uid="uid://dso7go6on8qfk" path="res://Scripts/game_over_menu.gd" id="10_bt7fg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u6q4l"]
 
