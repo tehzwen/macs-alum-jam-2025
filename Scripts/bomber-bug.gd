@@ -30,7 +30,7 @@ func attack():
 func initialize(id: String) -> void:
 	self.damage = 10
 	self.coin_worth = 4
-	self.attack_cooldown = 1.0
+	self.attack_cooldown = 1.25
 	self.total_hp = 75
 	super.initialize(id)
 	

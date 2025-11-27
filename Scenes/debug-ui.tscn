@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bpamdhgkpv4fp"]
+[gd_scene load_steps=12 format=3 uid="uid://bpamdhgkpv4fp"]
 
 [ext_resource type="Script" uid="uid://v01rpncxyy0f" path="res://Scripts/debug_ui.gd" id="1_jhhbj"]
 [ext_resource type="Shader" uid="uid://r4wcccfyfko5" path="res://Shaders/debug-ui-plant.gdshader" id="2_52fps"]
@@ -6,10 +6,15 @@
 [ext_resource type="Script" uid="uid://ca0deg44txo1d" path="res://Scripts/plant-button.gd" id="6_7f3p7"]
 [ext_resource type="SpriteFrames" uid="uid://cymfjbp615x7w" path="res://Resources/pea-button-frames.tres" id="6_62e2k"]
 [ext_resource type="SpriteFrames" uid="uid://by6uvnq8qcies" path="res://Resources/tomato-button-frames.tres" id="7_bhi3j"]
+[ext_resource type="SpriteFrames" uid="uid://q1e4w6v241vk" path="res://Resources/time-scale-frames.tres" id="8_7f3p7"]
 [ext_resource type="SpriteFrames" uid="uid://scv53pjy2gii" path="res://Resources/vine-button-frames.tres" id="8_co3tt"]
+[ext_resource type="Script" uid="uid://cjeg0gf3yvlv3" path="res://Scripts/round_timer.gd" id="9_7f3p7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_62e2k"]
 shader = ExtResource("2_52fps")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7f3p7"]
+size = Vector2(32, 32)
 
 [node name="DebugUi" type="Control"]
 layout_mode = 3
@@ -101,11 +106,14 @@ grow_vertical = 2
 text = "Game speed:"
 
 [node name="AnimatedPanel" type="Panel" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_top = 0.901
+anchor_right = 0.22200002
 anchor_bottom = 1.0
-offset_top = 584.0
-offset_right = -896.0
+offset_top = 0.15197754
+offset_right = 0.25598145
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Tomato" type="AnimatedSprite2D" parent="CanvasLayer/AnimatedPanel"]
 material = SubResource("ShaderMaterial_62e2k")
@@ -180,3 +188,20 @@ offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "4"
+
+[node name="TimeScale" type="AnimatedSprite2D" parent="CanvasLayer"]
+position = Vector2(1128, 24)
+sprite_frames = ExtResource("8_7f3p7")
+frame_progress = 0.8134974
+script = ExtResource("9_7f3p7")
+
+[node name="Area2D" type="Area2D" parent="CanvasLayer/TimeScale"]
+position = Vector2(0, 4)
+collision_layer = 65536
+collision_mask = 65536
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasLayer/TimeScale/Area2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_7f3p7")
+
+[connection signal="input_event" from="CanvasLayer/TimeScale/Area2D" to="CanvasLayer/TimeScale" method="_on_area_2d_input_event"]

@@ -33,8 +33,10 @@ var wave_manager = WaveManager.new()
 var selected_type: PLANT_TYPE = PLANT_TYPE.TOMATO
 var time_scale = 1.0
 var spawn_points: Array[Vector2] = []
-var ant_hill_chance = 25
+var ant_hill_chance = 35
+var initial_player_wealth = 0
 @onready var game_over_menu = $"../GameOverMenu/CanvasLayer"
+
 
 enum BUG_TYPE {
 	ANT,
@@ -116,6 +118,17 @@ func place_in_grid(id: String, coords: Vector2, dimensions: Vector2) -> bool:
 			self.game_grid[coord.x][coord.y] = id
 		return true
 	return false
+
+# helper used to determine how well the player is doing so we can scale difficulty based on it
+func get_current_player_wealth() -> int:
+	var total = Globals.cash
+	
+	for plant in self.active_plants:
+		var plant_script: Plant = plant
+		var plant_health_percentage = plant_script.total_hp / plant_script.max_hp
+		var plant_value = plant_health_percentage * Globals.get_plant_cost_by_class(plant)
+		total += plant_value
+	return total
 
 func new_bug(id: String, type: BUG_TYPE) -> Node2D:
 	var spawn_point = rng.randi_range(0, len(self.spawn_points) -1)
@@ -228,8 +241,12 @@ func _ready():
 		self.game_grid.push_back(column)
 	
 	add_plant(PLANT_TYPE.TOMATO, num_cols/2, num_rows/2)
+	add_plant(PLANT_TYPE.PEA, num_cols/2 + 2, num_rows/2 + 2)
 	#add_plant(PLANT_TYPE.PEA, 5, 5)
 	#add_plant(PLANT_TYPE.VINE, 4,4)
+	self.wave_manager.get_wave_worth()
+	self.get_current_player_wealth()
+	self.initial_player_wealth = self.get_current_player_wealth()
 
 # helper to generate spawning points around the outside of the map
 func generate_bug_spawn_points():
@@ -280,16 +297,37 @@ func next_wave():
 func _process(_delta: float) -> void:
 	if active_bugs.size() < self.wave_manager.get_active_enemy_count() and self.wave_manager.get_remaining() >= 0:
 		var bug_id = str(self.num_current_bugs)
-		var rand_bug = randi_range(-1, 1)
-		var type = BUG_TYPE.BOMBER
-		if (rand_bug == -1):
-			type = BUG_TYPE.ANT
+		var rand_bug = randi_range(0, 1)
+		var type = BUG_TYPE.ANT
+		
+		if rand_bug <= 0.3:
+			type = BUG_TYPE.BOMBER	
 		
 		var bug = new_bug(bug_id, type)
 		add_child(bug)
 		active_bugs.push_back(bug)
 		self.num_current_bugs += 1
 	elif active_bugs.size() == 0 and self.wave_manager.get_remaining() < 0 and not self.wave_manager.waiting:
+		# see how the player is doing wealth wise vs what the overall round could've been
+		var round_potential = self.wave_manager.get_wave_worth()
+		var player_wealth = self.get_current_player_wealth()
+		var wealth_value = float(player_wealth) / float(round_potential + self.initial_player_wealth)
+		
+		# we increase difficulty if the player is breezing through stuff, and decrease to a min of 1.0 
+		# if the player is struggling. How much we scale depends on what round we're on
+		
+		if wealth_value >= 0.8:
+			print("doing really well")
+			Globals.set_difficulty(Globals.difficulty + (0.05 * self.wave_manager.current_wave_num))
+		elif wealth_value >= 0.6:
+			print("doing decently well")
+			Globals.set_difficulty(Globals.difficulty + (0.01 * self.wave_manager.current_wave_num))
+		else:
+			print("not doing so well")
+			if (Globals.difficulty - (0.01 * self.wave_manager.current_wave_num)) >= 1.0:
+				Globals.set_difficulty(Globals.difficulty - (0.01 * self.wave_manager.current_wave_num))
+				
+		self.initial_player_wealth = player_wealth
 		# todo - run a timer here then spawn the next wave
 		self.wave_manager.waiting = true
 		await get_tree().create_timer(3.0).timeout

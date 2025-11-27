@@ -1,0 +1,67 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3 uid="uid://q1e4w6v241vk"]
+
+[ext_resource type="Texture2D" uid="uid://c5liue5uqau46" path="res://Resources/UI Icons/TimerSprite.png" id="1_arh4q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ta8em"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7yhod"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15bec"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8ll3"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_irgrg"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hqdpy"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smxti"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hesge"]
+atlas = ExtResource("1_arh4q")
+region = Rect2(224, 0, 32, 32)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_ta8em")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_7yhod")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_15bec")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_t8ll3")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_irgrg")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_hqdpy")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_smxti")
+}, {
+"duration": 5.0,
+"texture": SubResource("AtlasTexture_hesge")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
